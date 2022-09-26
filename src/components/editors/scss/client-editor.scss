@@ -15,32 +15,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap');
+@import "editor";
 
-* {
-    font-family: 'Open Sans', sans-serif;
-}
-
-body {
-    margin: 0;
-    padding: 0;
-    //background-color: #dfe0e8;
-    background-color: #282a36;
-    color: #f8f8f2;
-}
-
-main {
-    //background-color: #FDFDFD;
-    background-color: #282a36;
-    width: 100%;
-    max-width: 1500px;
-    margin: 0 auto;
-    min-height: 100vh;
-    padding: 0.7rem 0.5rem;
-    box-sizing: border-box;
-}
-
-hr {
-    border: none;
-    border-top: 1px solid #bd93f9;
+.client-editor {
+    max-width: 90%;
+    justify-content: space-around;
+    .top {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+    }
 }

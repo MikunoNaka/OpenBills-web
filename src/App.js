@@ -18,6 +18,7 @@
 import './App.scss';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ManageItemsPage from './views/manage/items';
+import ManageClientsPage from './views/manage/clients';
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
       <main>
         <Routes>
           <Route exact path="/manage/items" element={<ManageItemsPage/>}/>
+          <Route exact path="/manage/clients" element={<ManageClientsPage/>}/>
           <Route path="*" element={<h1>404</h1>}/>
         </Routes>
       </main>

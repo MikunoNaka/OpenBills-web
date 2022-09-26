@@ -22,15 +22,15 @@
 import { useState, useEffect } from 'react';
 
 import './scss/management-page.scss'
-import { getAllItems } from '../../classes/item';
-import ItemEditor from './../../components/editors/item-editor';
-import ItemTable from './../../components/tables/item-table';
+import { getAllClients } from '../../classes/client';
+import ClientEditor from './../../components/editors/client-editor';
+import ClientTable from './../../components/tables/client-table';
 
-const ManageItemsPage = () => {
-  const [allItems, setAllItems] = useState([]);
+const ManageClientsPage = () => {
+  const [allClients, setAllClients] = useState([]);
   // TODO: handle error
   const updateList = () =>
-    getAllItems(setAllItems, () => {});
+    getAllClients(setAllClients, () => {});
 
   useEffect(() => {
     updateList();
@@ -38,11 +38,11 @@ const ManageItemsPage = () => {
 
   return (
     <>
-      <ItemEditor heading={"Add New Item"} callback={updateList}/>
+      <ClientEditor heading={"Add New Client"} callback={updateList}/>
       <hr/>
-      <ItemTable refresh={updateList} items={allItems}/>
+      {false && <ClientTable refresh={updateList} items={allClients}/>}
     </>
   );
 }
 
-export default ManageItemsPage;
+export default ManageClientsPage;

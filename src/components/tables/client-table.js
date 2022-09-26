@@ -20,7 +20,7 @@ import { deleteItem } from './../../classes/item';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 
-const ItemTable = (props) => {
+const ClientTable = (props) => {
   const handleEdit = (i) => {
     alert("editing coming soon")
   }
@@ -79,4 +79,4 @@ const ItemTable = (props) => {
   );
 }
 
-export default ItemTable;
+export default ClientTable;

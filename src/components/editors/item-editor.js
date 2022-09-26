@@ -96,7 +96,7 @@ const ItemEditor = (props) => {
 
   return (
     <div className={"editor-wrapper"}>
-      <p>Add New Item</p>
+      <p>{props.heading}</p>
       <form onSubmit={handleSubmit} className={"editor"}>
         <label>
           Product/Service:

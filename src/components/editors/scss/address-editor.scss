@@ -1,0 +1,65 @@
+/* OpenBills-web - Web based libre billing software
+ * Copyright (C) 2022  Vidhu Kant Sharma <vidhukant@vidhukant.xyz>
+
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+@import "colors";
+@import "editor";
+
+.address-editor {
+    min-height: 18rem;
+    .heading {
+      font-size: 1.1rem;
+      color: $primaryAccentColor;
+      font-weight: bold;
+      align: center;
+    }
+
+    .checkbox-label {
+        border: none;
+        max-width: none;
+        justify-content: left;
+        input {
+            display: inline;
+            width: 1.4rem;
+        }
+    }
+
+    .labels-wrapper {
+        @include label;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+
+        div {
+            width: 50%;
+            max-width: 20rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            input, textarea {
+                width: 100%;
+                max-width: none;
+                margin-top: 0.2rem;
+            }
+            textarea {
+                min-height: 6rem;
+                max-height: 6rem;
+                resize: none;
+            }
+        }
+    }
+}
