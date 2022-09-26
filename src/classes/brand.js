@@ -15,21 +15,30 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import './App.scss';
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import ManageItemsPage from './views/manage/items';
+import axios from "axios";
 
-const App = () => {
-  return (
-    <BrowserRouter>
-      <main>
-        <Routes>
-          <Route exact path="/manage/items" element={<ManageItemsPage/>}/>
-          <Route path="*" element={<h1>404</h1>}/>
-        </Routes>
-      </main>
-    </BrowserRouter>
-  );
+/* TODO: implement a better way to handle
+ * API responses/errors
+ *
+ * maybe I can send a notification when a brand
+ * is successfully added, or when some error occours
+ */
+
+export class Brand {
+  constructor() {
+    this.Id = null;
+    this.Name = "";
+  }
 }
 
-export default App;
+export const deleteBrand = (id, ok, fail) => {
+    axios.delete(`/brand/${id}`)
+      .then(res => ok())
+      .catch(err => fail())
+}
+
+export const getAllBrands = (ok, fail) => {
+  axios.get("/brand/all")
+    .then(res => ok(res.data))
+    .catch(err => fail())
+}

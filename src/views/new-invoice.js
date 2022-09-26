@@ -15,21 +15,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import './App.scss';
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import ManageItemsPage from './views/manage/items';
+import NewBrand from './../components/doc-editors/new-brand';
+import ItemEditor from './../components/doc-editors/item-editor';
 
-const App = () => {
+const NewInvoicePage = () => {
   return (
-    <BrowserRouter>
-      <main>
-        <Routes>
-          <Route exact path="/manage/items" element={<ManageItemsPage/>}/>
-          <Route path="*" element={<h1>404</h1>}/>
-        </Routes>
-      </main>
-    </BrowserRouter>
+    <>
+      <h1>Billing Page</h1>
+      <h2>Add new brand:</h2>
+      <NewBrand/>
+      <h2>Add new item:</h2>
+      <ItemEditor/>
+    </>
   );
 }
 
-export default App;
+export default NewInvoicePage;

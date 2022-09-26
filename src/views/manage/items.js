@@ -15,21 +15,32 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import './App.scss';
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import ManageItemsPage from './views/manage/items';
+/* This page shows a list of all the items
+ * with options to add/modify/delete items
+ */
 
-const App = () => {
+import { useState, useEffect } from 'react';
+
+import { getAllItems } from '../../classes/item';
+import ItemEditor from './../../components/editors/item-editor';
+import ItemTable from './../../components/tables/item-table';
+
+const ManageItemsPage = () => {
+  const [allItems, setAllItems] = useState([]);
+  // TODO: handle error
+  const updateList = () =>
+    getAllItems(setAllItems, () => {});
+
+  useEffect(() => {
+    updateList();
+  }, []);
+
   return (
-    <BrowserRouter>
-      <main>
-        <Routes>
-          <Route exact path="/manage/items" element={<ManageItemsPage/>}/>
-          <Route path="*" element={<h1>404</h1>}/>
-        </Routes>
-      </main>
-    </BrowserRouter>
+    <>
+      <ItemEditor callback={updateList}/>
+      <ItemTable refresh={updateList} items={allItems}/>
+    </>
   );
 }
 
-export default App;
+export default ManageItemsPage;
