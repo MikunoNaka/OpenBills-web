@@ -20,11 +20,27 @@
 
 .address-editor {
     min-height: 18rem;
+    position: relative;
+
     .heading {
       font-size: 1.1rem;
       color: $primaryAccentColor;
       font-weight: bold;
       align: center;
+    }
+
+    .remove-button {
+        opacity: 0;
+        position: absolute;
+        font-size: 2rem;
+        top: 0.8rem;
+        right: 1rem;
+        color: $secondaryAccentColor;
+        transition: opacity 0.2s, color 0.3s;
+    }
+
+    .remove-button:hover {
+        color: $warningColor;
     }
 
     .checkbox-label {
@@ -62,4 +78,8 @@
             }
         }
     }
+}
+
+.address-editor:hover .remove-button {
+    opacity: 1;
 }

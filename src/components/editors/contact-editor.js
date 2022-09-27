@@ -18,13 +18,22 @@
 import { Contact } from './../../classes/client';
 import './scss/contact-editor.scss';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const ContactEditor = (props) => {
-  const [name, setName] = useState("");
-  const [phones, setPhones] = useState("");
-  const [emails, setEmails] = useState("");
-  const [website, setWebsite] = useState("");
+  const handleInput = (field, event) => {
+    const c = new Contact();
+    const val = event.target.value;
+    c.Name = field === "name" ? val : props.contact.Name;
+    c.Website = field === "website" ? val : props.contact.Website;
+    c.Phones = field === "phones"
+      ? (val.length === 0 ? [] : val.split("\n"))
+      : props.contact.Phones;
+    c.Emails = field === "emails"
+      ? (val.length === 0 ? [] : val.split("\n"))
+      : props.contact.Emails;
+    props.setContact(c);
+  }
 
   return (
     <div className={"contact-editor"}>
@@ -35,28 +44,36 @@ const ContactEditor = (props) => {
           Contact Name:
           <input
             type="text" name="name"
-            value={name} onChange={(e) => setName(e.target.value)} />
+            value={props.contact.Name} onChange={(e) => handleInput("name", e)} />
         </label>
 
         <label>
           Website:
           <input
             type="text" name="name"
-            value={website} onChange={(e) => setWebsite(e.target.value)} />
+            value={props.contact.Website} onChange={(e) => handleInput("website", e)} />
         </label>
 
         <label>
           Phone:
           <textarea
             type="text" name="name"
-            value={phones} onChange={(e) => setPhones(e.target.value)} />
+            value={props.contact.Phones.length > 0
+              ? props.contact.Phones.forEach(i => i)
+              : ""
+            }
+            onChange={(e) => handleInput("phones", e)} />
         </label>
 
         <label>
           E-mail:
           <textarea
             type="text" name="name"
-            value={emails} onChange={(e) => setEmails(e.target.value)} />
+            value={props.contact.Emails.length > 0
+              ? props.contact.Emails.forEach(i => i)
+              : ""
+            }
+            onChange={(e) => handleInput("emails", e)} />
         </label>
       </div>
     </div>

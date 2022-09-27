@@ -18,18 +18,31 @@
 import { Address } from './../../classes/client';
 import './scss/address-editor.scss';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const AddressEditor = (props) => {
-  const [country, setCountry] = useState("");
-  const [state, setState] = useState("");
-  const [city, setCity] = useState("");
-  const [address, setAddress] = useState("");
-  const [postalCode, setPostalCode] = useState("");
+  const handleInput = (field, event) => {
+    const a = new Address();
+    const val = event.target.value;
+    a.Country = field === "country" ? val : props.address.Country;
+    a.State = field === "state" ? val : props.address.State;
+    a.City = field === "city" ? val : props.address.City;
+    a.Text = field === "address" ? val : props.address.Text;
+    a.PostalCode = field === "postal" ? val : props.address.PostalCode;
+    props.setAddress(a);
+  }
 
   return (
     <div className={"address-editor"}>
       <p className={"heading"}>{props.heading}</p>
+      {props.isBillingAddress || // cross button
+        <FontAwesomeIcon
+          icon={faXmark}
+          className={"remove-button"}
+          onClick={props.deleteAddress}/>
+      }
 
       <div className={"labels-wrapper"}>
         <div>
@@ -37,21 +50,21 @@ const AddressEditor = (props) => {
             Country:
             <input
               type="text" name="name"
-              value={country} onChange={(e) => setCountry(e.target.value)} />
+              value={props.address.Country} onChange={(e) => handleInput("country", e)} />
           </label>
 
           <label>
             State:
             <input
               type="text" name="name"
-              value={state} onChange={(e) => setState(e.target.value)} />
+              value={props.address.State} onChange={(e) => handleInput("state", e)} />
           </label>
 
           <label>
             City:
             <input
               type="text" name="name"
-              value={city} onChange={(e) => setCity(e.target.value)} />
+              value={props.address.City} onChange={(e) => handleInput("city", e)} />
           </label>
         </div>
 
@@ -60,14 +73,14 @@ const AddressEditor = (props) => {
             Address:
             <textarea
               type="text" name="name"
-              value={address} onChange={(e) => setAddress(e.target.value)} />
+              value={props.address.Text} onChange={(e) => handleInput("address", e)} />
           </label>
 
           <label>
             Postal Code:
             <input
               type="text" name="name"
-              value={postalCode} onChange={(e) => setPostalCode(e.target.value)} />
+              value={props.address.PostalCode} onChange={(e) => handleInput("postal", e)} />
           </label>
         </div>
       </div>
@@ -76,7 +89,7 @@ const AddressEditor = (props) => {
           <input
             type="checkbox"
             checked={props.billingAddressIsShipping}
-            onChange={props.callback()} />
+            onChange={() => props.setShipToBillingAddress(!props.billingAddressIsShipping)} />
           Shipping address same as billing address
         </label>
       }

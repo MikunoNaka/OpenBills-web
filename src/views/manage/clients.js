@@ -38,7 +38,7 @@ const ManageClientsPage = () => {
 
   return (
     <>
-      <ClientEditor heading={"Add New Client"} callback={updateList}/>
+      <ClientEditor heading={"Add New Client"} successCallback={updateList}/>
       <hr/>
       {false && <ClientTable refresh={updateList} items={allClients}/>}
     </>

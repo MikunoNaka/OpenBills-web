@@ -43,24 +43,24 @@ export class Client {
     this.Contact = new Contact();
     this.GSTIN = "";
     this.BillingAddress = new Address();
-    this.ShippingAddress = [];
+    this.ShippingAddresses = [];
   }
 }
 
 export const saveClient = (item, ok, fail) => {
   axios.post("/client/new", item)
-    .then(res => { console.log(res);ok()})
-    .catch((err) => fail())
+    .then(res => ok(res))
+    .catch(err => fail(err))
 }
 
 export const deleteClient = (id, ok, fail) => {
   axios.delete(`/client/${id}`)
-    .then(res => ok())
-    .catch((err) => fail())
+    .then(res => ok(res))
+    .catch(err => fail(err))
 }
 
 export const getAllClients = (ok, fail) => {
   axios.get("/client/all")
-    .then(res => ok(res.data))
-    .catch(err => fail())
+    .then(res => ok(res.Data))
+    .catch(err => fail(err))
 }

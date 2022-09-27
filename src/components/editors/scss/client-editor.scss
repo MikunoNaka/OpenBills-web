@@ -25,4 +25,11 @@
       display: flex;
       justify-content: space-around;
     }
+
+    .buttons.wide {
+      width: 24.5rem;
+      input.wide-button {
+          width: 11rem;
+      }
+    }
 }

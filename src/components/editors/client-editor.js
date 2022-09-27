@@ -15,17 +15,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Client, saveClient } from './../../classes/client';
+import { Client, saveClient, Contact, Address } from './../../classes/client';
 import AddressEditor from './address-editor';
 import ContactEditor from './contact-editor';
 import './scss/client-editor.scss';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const ClientEditor = (props) => {
   const [name, setName] = useState("");
   const [GSTIN, setGSTIN] = useState([]);
+  const [contact, setContact] = useState(new Contact());
+  const [billingAddress, setBillingAddress] = useState(new Address());
+  const [shippingAddresses, setShippingAddresses] = useState([]);
   const [shipToBillingAddress, setShipToBillingAddress] = useState(true);
+
+  useEffect(() => {
+    // will delete existing shipping addresses if false
+    setShippingAddresses(shipToBillingAddress ? [] : [new Address()])
+  }, [shipToBillingAddress]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,6 +41,11 @@ const ClientEditor = (props) => {
     const client = new Client();
     client.Name = name;
     client.GSTIN = GSTIN;
+    client.Contact = contact;
+    client.BillingAddress = billingAddress;
+    client.ShippingAddresses = shipToBillingAddress
+      ? [billingAddress]
+      : shippingAddresses
 
     // TODO: Save is for new items. implement modification too
     saveClient(client, handleSuccess, handleFail);
@@ -40,21 +53,47 @@ const ClientEditor = (props) => {
 
   const handleSuccess = () => {
     clearAll();
-    props.callback();
+    props.successCallback();
   }
 
-  const handleFail = () => {
+  const handleFail = (err) => {
     alert("fail");
+    console.log(err);
   }
 
   const clearAll = () => {
     setName("");
     setGSTIN("")
+    setContact(new Contact());
+    setBillingAddress(new Address());
+    setShippingAddresses([new Address()]);
+    setShipToBillingAddress(true);
   }
 
   const handleCancel = () => {
     // TODO: hide this component or something
     clearAll();
+  }
+
+  const handleShippingAddressUpdate = (id, data) => {
+    setShippingAddresses([
+      ...shippingAddresses.slice(0, id),
+      data,
+      ...shippingAddresses.slice(id+1)
+    ]);
+  }
+
+  const handleShippingAddressDelete = (id) => {
+    // deleting the last address sets
+    // shipToBillingAddress to true
+    if (shippingAddresses.length === 1) {
+      setShipToBillingAddress(true);
+    } else {
+      setShippingAddresses([
+        ...shippingAddresses.slice(0, id),
+        ...shippingAddresses.slice(id+1)
+      ]);
+    }
   }
 
   return (
@@ -77,14 +116,35 @@ const ClientEditor = (props) => {
           </label>
         </div>
 
-        <ContactEditor heading={"Contact Details"}/>
+        <ContactEditor
+          heading={"Contact Details"}
+          contact={contact}
+          setContact={setContact} />
         <AddressEditor
           heading={"Billing Address"}
           isBillingAddress={true}
           billingAddressIsShipping={shipToBillingAddress}
-          callback={setShipToBillingAddress} />
+          setShipToBillingAddress={setShipToBillingAddress}
+          address={billingAddress}
+          setAddress={setBillingAddress} />
 
-        <span className={"buttons"}>
+        {shippingAddresses.length > 0 && shippingAddresses.map((i, id) =>
+          <AddressEditor
+            key={id}
+            heading={`Shipping Address ${shippingAddresses.length === 1 ? '' : id + 1}`}
+            address={i}
+            deleteAddress={() => handleShippingAddressDelete(id)}
+            setAddress={(data) => handleShippingAddressUpdate(id, data)} />
+        )}
+
+        <span className={`buttons ${shippingAddresses.length > 0 ? 'wide' : ''}`}>
+          {shippingAddresses.length > 0 &&
+            <input
+            className={"wide-button"}
+            type="button"
+            value="Add Shipping Address"
+            onClick={()=> setShippingAddresses([...shippingAddresses, new Address()])}/>
+          }
           <input type="button" value="Clear" onClick={clearAll}/>
           <input type="button" value="Cancel" onClick={handleCancel}/>
           <input type="submit" value="Save" />
