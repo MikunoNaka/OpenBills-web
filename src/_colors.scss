@@ -15,10 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-@import "../../../styles";
+$primaryAccentColor: #bd93f9;
+$backgroundColor: #282a36;
+$linkColor: $primaryAccentColor;
 
-@include floating-window;
+$white: #f8f8f2;
+$black: black;
 
-hr {
-  margin: 0.8rem auto 1rem auto;
-}
+$fgColor: $white;

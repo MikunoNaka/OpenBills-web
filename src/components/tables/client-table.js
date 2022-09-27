@@ -20,7 +20,7 @@ import { deleteClient } from './../../classes/client';
 
 const ClientTable = (props) => {
   const handleEdit = (i) => {
-    alert("editing coming soon")
+    props.setItemToEdit(i)
   }
 
   const handleDelete = (c) => {

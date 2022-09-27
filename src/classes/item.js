@@ -65,3 +65,9 @@ export const getAllItems = (ok, fail) => {
     .then(res => ok(res.data))
     .catch(err => fail())
 }
+
+export const editItem = (item, ok, fail) => {
+  axios.put(`/item/${item.id}`, item)
+    .then(res => ok())
+    .catch(err => fail())
+}

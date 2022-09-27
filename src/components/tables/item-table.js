@@ -22,7 +22,7 @@ import { faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 
 const ItemTable = (props) => {
   const handleEdit = (i) => {
-    alert("editing coming soon")
+    props.setItemToEdit(i)
   }
 
   const handleDelete = (i) => {

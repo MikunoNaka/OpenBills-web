@@ -43,8 +43,14 @@ export const getAllBrands = (ok, fail) => {
     .catch(err => fail())
 }
 
+export const editBrand = (brand, ok, fail) => {
+  axios.put(`/brand/${brand.id}`, brand)
+    .then(res => ok())
+    .catch(err => fail())
+}
+
 export const saveBrand = (brand, ok, fail) => {
   axios.post("/brand/new", brand)
     .then(res => ok())
-    .catch((err) => fail())
+    .catch(err => fail())
 }

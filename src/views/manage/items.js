@@ -22,11 +22,12 @@
 import { useState, useEffect } from 'react';
 
 import './scss/management-page.scss'
-import { getAllItems } from '../../classes/item';
+import { Item, getAllItems } from '../../classes/item';
 import ItemEditor from './../../components/editors/item-editor';
 import ItemTable from './../../components/tables/item-table';
 
 const ManageItemsPage = () => {
+  const [itemToEdit, setItemToEdit] = useState(new Item());
   const [allItems, setAllItems] = useState([]);
   // TODO: handle error
   const updateList = () =>
@@ -38,9 +39,27 @@ const ManageItemsPage = () => {
 
   return (
     <>
-      <ItemEditor heading={"Add New Item"} callback={updateList}/>
+      <ItemEditor
+        heading={"Add New Item"}
+        item={new Item()}
+        callback={updateList}/>
       <hr/>
-      <ItemTable refresh={updateList} items={allItems}/>
+      <ItemTable
+        refresh={updateList}
+        items={allItems}
+        setItemToEdit={setItemToEdit}/>
+
+      {JSON.stringify(itemToEdit) !== JSON.stringify(new Item()) &&
+        <div className={"floating-wrapper"}>
+          <ItemEditor
+            className={"floating-window"}
+            heading={`Edit ${itemToEdit.Name ? itemToEdit.Name : 'Item'}:`}
+            item={itemToEdit}
+            hide={() => setItemToEdit(new Item())}
+            editing={true}
+            callback={updateList}/>
+        </div>
+      }
     </>
   );
 }

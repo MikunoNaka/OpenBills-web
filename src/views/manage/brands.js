@@ -18,11 +18,12 @@
 import { useState, useEffect } from 'react';
 
 import './scss/management-page.scss'
-import { getAllBrands } from '../../classes/brand';
+import { Brand, getAllBrands } from '../../classes/brand';
 import BrandEditor from './../../components/editors/brand-editor';
 import BrandTable from './../../components/tables/brand-table';
 
 const ManageBrandsPage = () => {
+  const [brandToEdit, setBrandToEdit] = useState(new Brand());
   const [allBrands, setAllBrands] = useState([]);
   // TODO: handle error
   const updateList = () =>
@@ -34,9 +35,27 @@ const ManageBrandsPage = () => {
 
   return (
     <>
-      <BrandEditor heading={"Add New Brand"} callback={updateList}/>
+      <BrandEditor
+        heading={"Add New Brand"}
+        brand={new Brand()}
+        callback={updateList}/>
       <hr/>
-      <BrandTable refresh={updateList} brands={allBrands}/>
+      <BrandTable
+        refresh={updateList}
+        brands={allBrands}
+        setBrandToEdit={setBrandToEdit}/>
+
+      {JSON.stringify(brandToEdit) !== JSON.stringify(new Brand()) &&
+        <div className={"floating-wrapper"}>
+          <BrandEditor
+            className={"floating-window"}
+            heading={`Edit ${brandToEdit.Name ? brandToEdit.Name : 'Brand'}:`}
+            brand={brandToEdit}
+            hide={() => setBrandToEdit(new Brand())}
+            editing={true}
+            callback={updateList}/>
+        </div>
+      }
     </>
   );
 }

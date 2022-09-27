@@ -15,13 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Brand, saveBrand } from './../../classes/brand'
+import { Brand, saveBrand, editBrand } from './../../classes/brand'
 import './scss/brand-editor.scss'
 
 import { useState, useEffect } from 'react';
 
 const BrandEditor = (props) => {
-  const [name, setName] = useState("");
+  const [name, setName] = useState(props.brand.Name);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,13 +29,15 @@ const BrandEditor = (props) => {
     const brand = new Brand();
     brand.Name = name;
 
-    // TODO: Save is for new brands. implement modification too
-    saveBrand(brand, handleSuccess, handleFail);
+    props.editing
+      ? editBrand(brand, handleSuccess, handleFail)
+      : saveBrand(brand, handleSuccess, handleFail);
   }
 
   const handleSuccess = () => {
     clearAll();
     props.callback();
+    props.editing && props.hide();
   }
 
   const handleFail = () => {
@@ -47,8 +49,8 @@ const BrandEditor = (props) => {
   }
 
   const handleCancel = () => {
-    // TODO: hide this component or something
     clearAll();
+    props.editing && props.hide();
   }
 
   const validateFloatInput = (e, callback) => {
@@ -57,7 +59,7 @@ const BrandEditor = (props) => {
   }
 
   return (
-    <div className={"editor-wrapper"}>
+    <div className={`editor-wrapper ${props.className ? props.className : ''}`}>
       <p>{props.heading}</p>
       <form onSubmit={handleSubmit} className={"editor brand-editor"}>
         <label>
@@ -67,8 +69,11 @@ const BrandEditor = (props) => {
             value={name} onChange={(e) => setName(e.target.value)} />
         </label>
 
-        <span className={"buttons"}>
+        <span className={`buttons ${props.editing ? '' : 'narrow'}`}>
           <input type="button" value="Clear" onClick={clearAll}/>
+          {props.editing &&
+            <input type="button" value="Cancel" onClick={handleCancel}/>
+          }
           <input type="submit" value="Save" />
         </span>
       </form>

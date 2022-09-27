@@ -17,14 +17,11 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap');
 
+@import "colors";
+
 * {
     font-family: 'Open Sans', sans-serif;
 }
-
-$primaryAccentColor: #bd93f9;
-$backgroundColor: #282a36;
-$linkColor: $primaryAccentColor;
-$fgColor: #f8f8f2;
 
 body {
     margin: 0;

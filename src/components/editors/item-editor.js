@@ -15,22 +15,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Item, saveItem } from './../../classes/item'
-import { Brand, getAllBrands } from './../../classes/brand'
-import './scss/item-editor.scss'
+import { Item, saveItem, editItem } from './../../classes/item';
+import { Brand, getAllBrands } from './../../classes/brand';
+import './scss/item-editor.scss';
 
 import { useState, useEffect } from 'react';
 
 const ItemEditor = (props) => {
-  const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
-  const [HSN, setHSN]  = useState("");
-  const [unit, setUnit] = useState("");
-  const [unitPrice, setUnitPrice] = useState(0.00);
-  const [gstP, setGSTP] = useState(0.00);
-  const [minQty, setMinQty] = useState(0.00);
-  const [maxQty, setMaxQty] = useState(0.00);
-  const [brand, setBrand] = useState(new Brand());
+  const [name, setName] = useState(props.item.Name);
+  const [desc, setDesc] = useState(props.item.Description);
+  const [HSN, setHSN]  = useState(props.item.HSN);
+  const [unit, setUnit] = useState(props.item.UnitOfMeasure);
+  const [unitPrice, setUnitPrice] = useState(props.item.UnitPrice);
+  const [gstP, setGSTP] = useState(props.item.GSTPercentage);
+  const [minQty, setMinQty] = useState(props.item.MinQuantity);
+  const [maxQty, setMaxQty] = useState(props.item.MaxQuantity);
+  const [brand, setBrand] = useState(props.item.Brand);
   const [savedBrands, setSavedBrands] = useState([]);
 
   // get saved brands from API
@@ -48,19 +48,22 @@ const ItemEditor = (props) => {
     item.Description = desc;
     item.HSN = HSN;
     item.UnitOfMeasure = unit;
-    item.UnitPrice = unitPrice;
-    item.GSTPercentage = gstP;
-    item.MinQuantity = minQty;
-    item.MaxQuantity = maxQty;
+    item.UnitPrice = parseFloat(unitPrice);
+    item.GSTPercentage = parseFloat(gstP);
+    item.MinQuantity = parseFloat(minQty);
+    item.MaxQuantity = parseFloat(maxQty);
     item.Brand = brand;
 
     // TODO: Save is for new items. implement modification too
-    saveItem(item, handleSuccess, handleFail);
+    props.editing
+      ? editItem(item, handleSuccess, handleFail)
+      : saveItem(item, handleSuccess, handleFail);
   }
 
   const handleSuccess = () => {
     clearAll();
     props.callback();
+    props.editing && props.hide();
   }
 
   const handleFail = () => {
@@ -85,73 +88,80 @@ const ItemEditor = (props) => {
   }
 
   const handleCancel = () => {
-    // TODO: hide this component or something
     clearAll();
-  }
-
-  const validateFloatInput = (e, callback) => {
-    const f = parseFloat(e.target.value);
-    f && callback(f)
+    props.editing && props.hide();
   }
 
   return (
-    <div className={"editor-wrapper"}>
+    <div className={`editor-wrapper ${props.className ? props.className : ''}`}>
       <p>{props.heading}</p>
       <form onSubmit={handleSubmit} className={"editor"}>
         <label>
           Product/Service:
           <input
-            type="text" name="name"
-            value={name} onChange={(e) => setName(e.target.value)} />
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)} />
         </label>
 
         <label>
           Description:
           <input
-            type="text" name="desc"
-            value={desc} onChange={(e) => setDesc(e.target.value)} />
+            type="text"
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)} />
         </label>
 
         <label>
           HSN:
           <input
-            type="text" name="hsn"
-            value={HSN} onChange={(e) => setHSN(e.target.value)} />
+            type="text"
+            value={HSN}
+            onChange={(e) => setHSN(e.target.value)} />
         </label>
 
         <label>
           Unit of Measurement:
           <input
-            type="text" name="unit"
-            value={unit} onChange={(e) => setUnit(e.target.value)} />
+            type="text"
+            value={unit}
+            onChange={(e) => setUnit(e.target.value)} />
         </label>
 
         <label>
           Unit Price:
           <input
-            type="number" name="unitprice"
-            value={unitPrice} onChange={(e) => validateFloatInput(e, setUnitPrice)} />
+            type="number"
+            value={unitPrice}
+            min="0"
+            onChange={(e) => setUnitPrice(e.target.value)} />
         </label>
 
         <label>
           GST %:
           <input
-            type="number" name="gstp"
-            value={gstP} onChange={(e) => validateFloatInput(e, setGSTP)} />
+            type="number"
+            value={gstP}
+            min="0"
+            onChange={(e) => setGSTP(e.target.value)} />
         </label>
 
         <label>
           Minimum Quantity:
           <input
-            type="number" name="minqty"
-            value={minQty} onChange={(e) => validateFloatInput(e, setMinQty)} />
+            type="number"
+            value={minQty}
+            min="0"
+            onChange={(e) => setMinQty(e.target.value)} />
         </label>
 
         <label>
           Maximum Quantity:
           <input
-            type="number" name="maxqty"
-            value={maxQty} onChange={(e) => validateFloatInput(e, setMaxQty)} />
+            type="number"
+            value={maxQty}
+            min="0"
+            onChange={(e) => setMaxQty(e.target.value)} />
         </label>
 
         {savedBrands && savedBrands.length > 0 &&

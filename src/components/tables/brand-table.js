@@ -19,8 +19,8 @@ import './scss/brand-table.scss';
 import { deleteBrand } from './../../classes/brand';
 
 const BrandTable = (props) => {
-  const handleEdit = (i) => {
-    alert("editing coming soon")
+  const handleEdit = (b) => {
+    props.setBrandToEdit(b)
   }
 
   const handleDelete = (b) => {
@@ -39,7 +39,7 @@ const BrandTable = (props) => {
   return (
     <div className={"brand-table"}>
       {props.brands && props.brands.map(i =>
-        <div className={"brand"}>
+        <div key={i.Id} className={"brand"}>
           <p className={"brand-name"}>{i.Name}</p>
           <div className={"buttons"}>
             <input type="button" value="Edit" onClick={() => handleEdit(i)}/>
