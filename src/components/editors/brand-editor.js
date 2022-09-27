@@ -27,6 +27,7 @@ const BrandEditor = (props) => {
     e.preventDefault();
 
     const brand = new Brand();
+    brand.Id = props.brand.Id;
     brand.Name = name;
 
     props.editing

@@ -44,6 +44,7 @@ const ItemEditor = (props) => {
     e.preventDefault();
 
     const item = new Item();
+    item.Id = props.item.Id;
     item.Name = name;
     item.Description = desc;
     item.HSN = HSN;

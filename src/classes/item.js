@@ -18,13 +18,6 @@
 import axios from "axios";
 import { Brand } from "./brand"
 
-/* TODO: implement a better way to handle
- * API responses/errors
- *
- * maybe I can send a notification when an item
- * is successfully added, or when some error occours
- */
-
 export class Item {
   constructor() {
     this.Id = null;
@@ -67,7 +60,7 @@ export const getAllItems = (ok, fail) => {
 }
 
 export const editItem = (item, ok, fail) => {
-  axios.put(`/item/${item.id}`, item)
+  axios.put(`/item/${item.Id}`, item)
     .then(res => ok())
     .catch(err => fail())
 }

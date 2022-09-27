@@ -44,7 +44,7 @@ export const getAllBrands = (ok, fail) => {
 }
 
 export const editBrand = (brand, ok, fail) => {
-  axios.put(`/brand/${brand.id}`, brand)
+  axios.put(`/brand/${brand.Id}`, brand)
     .then(res => ok())
     .catch(err => fail())
 }
