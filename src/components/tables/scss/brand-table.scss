@@ -15,25 +15,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import './App.scss';
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import ManageItemsPage from './views/manage/items';
-import ManageClientsPage from './views/manage/clients';
-import ManageBrandsPage from './views/manage/brands';
+@import "colors";
 
-const App = () => {
-  return (
-    <BrowserRouter>
-      <main>
-        <Routes>
-          <Route exact path="/manage/items" element={<ManageItemsPage/>}/>
-          <Route exact path="/manage/clients" element={<ManageClientsPage/>}/>
-          <Route exact path="/manage/brands" element={<ManageBrandsPage/>}/>
-          <Route path="*" element={<h1>404</h1>}/>
-        </Routes>
-      </main>
-    </BrowserRouter>
-  );
+.brand-table {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .brand {
+        display: flex;
+        min-width: 22rem;
+        justify-content: space-between;
+        border-bottom: 1px dashed $primaryAccentColor;
+    }
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+        width: 8.5rem;
+        @include button;
+        margin: auto 0;
+    }
 }
-
-export default App;

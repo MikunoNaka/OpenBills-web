@@ -23,9 +23,9 @@ const ClientTable = (props) => {
     alert("editing coming soon")
   }
 
-  const handleDelete = (i) => {
+  const handleDelete = (c) => {
     // TODO: add confirmation prompt
-    deleteClient(i.Id, handleDelSuccess, handleDelFail);
+    deleteClient(c.Id, handleDelSuccess, handleDelFail);
   }
 
   const handleDelSuccess = () => {

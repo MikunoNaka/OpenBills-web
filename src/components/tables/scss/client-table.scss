@@ -46,19 +46,7 @@
             display: flex;
             justify-content: space-between;
             width: 8.7rem;
-            input {
-                padding: 0.2rem 0;
-                width: 4rem;
-                background-color: $inputBackgroundColor;
-                border: 1px solid $primaryAccentColor;
-                color: $fgColor;
-                border-radius: 4px;
-                transition: background-color 0.4s, color 0.4s;
-            }
-            input:hover {
-                background-color: $primaryAccentColor;
-                color: $fgColorAlt;
-            }
+            @include button;
             bottom: 2rem;
             right: 2rem;
             margin: auto;

@@ -27,3 +27,19 @@ $fgColorDisabled: lightgray;
 $inputBackgroundColor: #00000000;
 
 $warningColor: #ed4683;
+
+@mixin button {
+    input[type=button] {
+        padding: 0.2rem 0;
+        width: 4rem;
+        background-color: $inputBackgroundColor;
+        border: 1px solid $primaryAccentColor;
+        color: $fgColor;
+        border-radius: 4px;
+        transition: background-color 0.4s, color 0.4s;
+    }
+    input[type=button]:hover {
+        background-color: $primaryAccentColor;
+        color: $fgColorAlt;
+    }
+}

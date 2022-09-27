@@ -15,25 +15,30 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import './App.scss';
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import ManageItemsPage from './views/manage/items';
-import ManageClientsPage from './views/manage/clients';
-import ManageBrandsPage from './views/manage/brands';
+import { useState, useEffect } from 'react';
 
-const App = () => {
+import './scss/management-page.scss'
+import { getAllBrands } from '../../classes/brand';
+import BrandEditor from './../../components/editors/brand-editor';
+import BrandTable from './../../components/tables/brand-table';
+
+const ManageBrandsPage = () => {
+  const [allBrands, setAllBrands] = useState([]);
+  // TODO: handle error
+  const updateList = () =>
+    getAllBrands(setAllBrands, () => {});
+
+  useEffect(() => {
+    updateList();
+  }, []);
+
   return (
-    <BrowserRouter>
-      <main>
-        <Routes>
-          <Route exact path="/manage/items" element={<ManageItemsPage/>}/>
-          <Route exact path="/manage/clients" element={<ManageClientsPage/>}/>
-          <Route exact path="/manage/brands" element={<ManageBrandsPage/>}/>
-          <Route path="*" element={<h1>404</h1>}/>
-        </Routes>
-      </main>
-    </BrowserRouter>
+    <>
+      <BrandEditor heading={"Add New Brand"} callback={updateList}/>
+      <hr/>
+      <BrandTable refresh={updateList} brands={allBrands}/>
+    </>
   );
 }
 
-export default App;
+export default ManageBrandsPage;

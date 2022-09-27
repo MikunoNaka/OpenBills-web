@@ -50,7 +50,7 @@ export class InvoiceItem extends Item {
 
 export const saveItem = (item, ok, fail) => {
   axios.post("/item/new", item)
-    .then(res => { console.log(res);ok()})
+    .then(res => ok())
     .catch((err) => fail())
 }
 

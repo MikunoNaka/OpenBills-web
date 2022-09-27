@@ -154,6 +154,7 @@ const ItemEditor = (props) => {
             value={maxQty} onChange={(e) => validateFloatInput(e, setMaxQty)} />
         </label>
 
+        {savedBrands && savedBrands.length > 0 &&
         <label>
           Brand:
           <select value={brand.Id ? brand.Id : ""} onChange={handleBrandSelect}>
@@ -163,6 +164,7 @@ const ItemEditor = (props) => {
             {savedBrands.map(i => <option key={i.Id} value={i.Id}>{i.Name}</option>)}
           </select>
         </label>
+        }
 
         <span className={"buttons"}>
           <input type="button" value="Clear" onClick={clearAll}/>

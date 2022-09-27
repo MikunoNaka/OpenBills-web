@@ -32,13 +32,19 @@ export class Brand {
 }
 
 export const deleteBrand = (id, ok, fail) => {
-    axios.delete(`/brand/${id}`)
-      .then(res => ok())
-      .catch(err => fail())
+  axios.delete(`/brand/${id}`)
+    .then(res => ok())
+    .catch(err => fail())
 }
 
 export const getAllBrands = (ok, fail) => {
   axios.get("/brand/all")
     .then(res => ok(res.data))
     .catch(err => fail())
+}
+
+export const saveBrand = (brand, ok, fail) => {
+  axios.post("/brand/new", brand)
+    .then(res => ok())
+    .catch((err) => fail())
 }
