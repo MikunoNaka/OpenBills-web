@@ -66,7 +66,7 @@ const ClientEditor = (props) => {
     setGSTIN("")
     setContact(new Contact());
     setBillingAddress(new Address());
-    setShippingAddresses([new Address()]);
+    setShippingAddresses([]);
     setShipToBillingAddress(true);
   }
 

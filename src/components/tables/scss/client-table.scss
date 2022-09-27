@@ -15,38 +15,44 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-table {
-    width: 90%;
-    margin: auto;
+@import "colors";
 
-    th {
-        box-sizing: border-box;
-        background-color: #383a59;
-        font-weight: normal;
-        text-align: left;
-        padding-left: 0.3rem;
+.client-table {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .client {
+        margin: 1rem auto;
+        width: 90%;
+
+        a {
+            color: $linkColor;
+            text-decoration: none;
+        }
+
+        .client-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+        .client-gstin {
+            color: $fgColorAlt;
+            font-size: 1.3rem;
+            margin-left: 0.3rem;
+        }
+
+        .paragraph-wrapper {
+            display: flex;
+            justify-content: left;
+            p {
+                margin: 0.2rem auto;
+                line-height: 1.4;
+            }
+            div {
+                margin: auto 1rem;
+                max-width: 22rem;
+            }
+        }
     }
-
-    tr:hover {
-        background-color: rgba(#383a59, 0.4);
-    }
-
-    td {
-        border-bottom: 1px solid white;
-    }
-
-    td.empty {
-        border-bottom: 1px solid gray;
-    }
-
-    td.buttons {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        border: none;
-        height: 1.4rem;
-    }
-
     .multiline {
       white-space: pre-line;
     }

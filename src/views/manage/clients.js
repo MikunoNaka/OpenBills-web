@@ -21,7 +21,7 @@
 
 import { useState, useEffect } from 'react';
 
-import './scss/management-page.scss'
+import './scss/management-page.scss';
 import { getAllClients } from '../../classes/client';
 import ClientEditor from './../../components/editors/client-editor';
 import ClientTable from './../../components/tables/client-table';
@@ -40,7 +40,7 @@ const ManageClientsPage = () => {
     <>
       <ClientEditor heading={"Add New Client"} successCallback={updateList}/>
       <hr/>
-      {false && <ClientTable refresh={updateList} items={allClients}/>}
+      <ClientTable refresh={updateList} clients={allClients}/>
     </>
   );
 }

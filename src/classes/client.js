@@ -61,6 +61,6 @@ export const deleteClient = (id, ok, fail) => {
 
 export const getAllClients = (ok, fail) => {
   axios.get("/client/all")
-    .then(res => ok(res.Data))
+    .then(res => ok(res.data))
     .catch(err => fail(err))
 }

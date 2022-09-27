@@ -18,8 +18,6 @@
 import { Contact } from './../../classes/client';
 import './scss/contact-editor.scss';
 
-import { useState, useEffect } from 'react';
-
 const ContactEditor = (props) => {
   const handleInput = (field, event) => {
     const c = new Contact();
