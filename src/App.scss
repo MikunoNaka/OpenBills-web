@@ -21,17 +21,20 @@
     font-family: 'Open Sans', sans-serif;
 }
 
+$primaryAccentColor: #bd93f9;
+$backgroundColor: #282a36;
+$linkColor: $primaryAccentColor;
+$fgColor: #f8f8f2;
+
 body {
     margin: 0;
     padding: 0;
-    //background-color: #dfe0e8;
-    background-color: #282a36;
-    color: #f8f8f2;
+    background-color: $backgroundColor;
+    color: $fgColor;
 }
 
 main {
-    //background-color: #FDFDFD;
-    background-color: #282a36;
+    background-color: $backgroundColor;
     width: 100%;
     max-width: 1500px;
     margin: 0 auto;
@@ -42,5 +45,10 @@ main {
 
 hr {
     border: none;
-    border-top: 1px solid #bd93f9;
+    border-top: 1px solid $primaryAccentColor;
+}
+
+a {
+    color: $linkColor;
+    text-decoration: none;
 }

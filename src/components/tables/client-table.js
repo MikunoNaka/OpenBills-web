@@ -17,8 +17,6 @@
 
 import './scss/client-table.scss';
 import { deleteClient } from './../../classes/client';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 
 const ClientTable = (props) => {
   const handleEdit = (i) => {
@@ -49,9 +47,8 @@ const ClientTable = (props) => {
 
           <div className={"paragraph-wrapper"}>
             <div className={"contact-details"}>
-              <p><strong>Contact: </strong>{i.Contact.Name}</p>
+              <p className={"heading"}><strong>Contact: </strong>{i.Contact.Name}</p>
               <p>
-                <br/>
                 Phone Number{i.Contact.Phones.length === 1 ? '' : 's'}:
                 {i.Contact.Phones.map((j, id) => ` ${j}${id + 1 === i.Contact.Phones.length ? '' : ','}`)}
                 <br/>
@@ -68,16 +65,16 @@ const ClientTable = (props) => {
             </div>
 
             <div className={"billing-address"}>
-              <p><strong>Billing Address: </strong></p>
+              <p className={"heading"}><strong>Billing Address: </strong></p>
               <p className={"multiline"}>{i.BillingAddress.Text}</p>
               <p>{i.BillingAddress.City}, {i.BillingAddress.State} - {i.BillingAddress.PostalCode} ({i.BillingAddress.Country})</p>
             </div>
             {i.ShippingAddresses.length > 0 && // if billing address != shipping address
               JSON.stringify(i.ShippingAddresses[0]) !== JSON.stringify(i.BillingAddress) &&
               <div className={"shipping-addresses"}>
-                {i.ShippingAddresses.map(j =>
-                  <div className={"shipping-address"}>
-                    <p><strong>Shipping Address: </strong></p>
+                {i.ShippingAddresses.map((j, id) =>
+                  <div key={id} className={"shipping-address"}>
+                    <p><strong>{`Shipping Address ${i.ShippingAddresses.length === 1 ? '' : id + 1}`}</strong></p>
                     <p className={"multiline"}>{j.Text}</p>
                     <p>{j.City}, {j.State} - {j.PostalCode} ({j.Country})</p>
                   </div>
@@ -87,8 +84,8 @@ const ClientTable = (props) => {
           </div>
 
           <div className={"buttons"}>
-            <FontAwesomeIcon icon={faPencil} onClick={() => handleEdit(i)}/>
-            <FontAwesomeIcon icon={faTrashCan} onClick={() => handleDelete(i)}/>
+            <input type="button" value="Edit" onClick={() => handleEdit(i)}/>
+            <input type="button" value="Delete" onClick={() => handleDelete(i)}/>
           </div>
 
           <hr/>
