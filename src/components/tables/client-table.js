@@ -50,15 +50,20 @@ const ClientTable = (props) => {
               <p className={"heading"}><strong>Contact: </strong>{i.Contact.Name}</p>
               <p>
                 Phone Number{i.Contact.Phones.length === 1 ? '' : 's'}:
-                {i.Contact.Phones.map((j, id) => ` ${j}${id + 1 === i.Contact.Phones.length ? '' : ','}`)}
+                {i.Contact.Phones.map((j, id) => <a key={`${j}-${id}`} href={`tel:${j}`}>{` ${j}${id + 1 === i.Contact.Phones.length ? '' : ','}`}</a>)}
                 <br/>
                 Email Address{i.Contact.Emails.length === 1 ? '' : 'es'}:
-                {i.Contact.Emails.map((j, id) => ` ${j}${id + 1 === i.Contact.Emails.length ? '' : ','}`)}
+                {i.Contact.Emails.map((j, id) => <a key={`${j}-${id}`} href={`mailto:${j}`}>{` ${j}${id + 1 === i.Contact.Emails.length ? '' : ','}`}</a>)}
                 <br/>
-                {i.Contact.Website.length > 0 && <a href={
-                  `${(i.Contact.Website.startsWith("https://")
+                {i.Contact.Website.length > 0 &&
+                 <a
+                   href={`${(i.Contact.Website.startsWith("https://")
                      || i.Contact.Website.startsWith("http://"))
-                       ? i.Contact.Website : 'https://' + i.Contact.Website}`}>{i.Contact.Website}</a>
+                       ? i.Contact.Website : 'https://' + i.Contact.Website}`}
+                   target="noreferrer noopener"
+                 >
+                   {i.Contact.Website}
+                 </a>
                 }
               </p>
 

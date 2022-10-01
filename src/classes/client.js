@@ -67,6 +67,6 @@ export const getAllClients = (ok, fail) => {
 
 export const editClient = (client, ok, fail) => {
   axios.put(`/client/${client.Id}`, client)
-    .then(res => ok())
-    .catch(err => fail())
+    .then(res => ok(res))
+    .catch(err => fail(err))
 }
