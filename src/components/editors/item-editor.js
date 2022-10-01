@@ -43,6 +43,18 @@ const ItemEditor = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const minQuantity = parseFloat(minQty)
+    const maxQuantity = parseFloat(maxQty)
+
+    // show error if minQty > maxQty
+    if (maxQuantity > 0) {
+      if (minQuantity > maxQuantity) {
+        // TODO: handle error
+        console.log("shiat")
+        return
+      }
+    }
+
     const item = new Item();
     item.Id = props.item.Id;
     item.Name = name;
@@ -51,8 +63,8 @@ const ItemEditor = (props) => {
     item.UnitOfMeasure = unit;
     item.UnitPrice = parseFloat(unitPrice);
     item.GSTPercentage = parseFloat(gstP);
-    item.MinQuantity = parseFloat(minQty);
-    item.MaxQuantity = parseFloat(maxQty);
+    item.MinQuantity = minQuantity;
+    item.MaxQuantity = maxQuantity;
     item.Brand = brand;
 
     // TODO: Save is for new items. implement modification too
@@ -151,7 +163,7 @@ const ItemEditor = (props) => {
           Minimum Quantity:
           <input
             type="number"
-            value={minQty}
+            value={minQty == "0" ? "" : minQty}
             min="0"
             onChange={(e) => setMinQty(e.target.value)} />
         </label>
@@ -160,7 +172,7 @@ const ItemEditor = (props) => {
           Maximum Quantity:
           <input
             type="number"
-            value={maxQty}
+            value={maxQty == "0" ? "" : maxQty}
             min="0"
             onChange={(e) => setMaxQty(e.target.value)} />
         </label>

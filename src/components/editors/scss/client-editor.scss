@@ -16,6 +16,7 @@
  */
 
 @import "editor";
+@import "../../../colors";
 
 .client-editor {
     max-width: 90%;
@@ -31,5 +32,16 @@
       input.wide-button {
           width: 11rem;
       }
+    }
+}
+
+.floating-window {
+    overflow: scroll;
+    max-height: 100%;
+    .buttons {
+      position: fixed;
+      bottom: 1rem;
+      background-color: $backgroundColor;
+      padding: 1rem auto;
     }
 }

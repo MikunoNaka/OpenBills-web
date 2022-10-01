@@ -64,3 +64,9 @@ export const getAllClients = (ok, fail) => {
     .then(res => ok(res.data))
     .catch(err => fail(err))
 }
+
+export const editClient = (client, ok, fail) => {
+  axios.put(`/client/${client.Id}`, client)
+    .then(res => ok())
+    .catch(err => fail())
+}

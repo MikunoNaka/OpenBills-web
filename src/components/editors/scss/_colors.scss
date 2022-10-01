@@ -15,12 +15,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-$primaryAccentColor: #bd93f9;
-$secondaryAccentColor: #d0afff;
+@import "../../../colors";
 
-$fgColor: white;
-$fgColorAlt: black;
+$primaryAccentColor: $primaryAccentColor;
+$secondaryAccentColor: $secondaryAccentColor;
 
-$inputBackgroundColor: #00000000;
+$fgColor: $fgColor;
+$fgColorAlt: $black;
 
-$warningColor: #ed4683;
+$inputBackgroundColor: $backgroundColor;
+
+$warningColor: $warningColor;

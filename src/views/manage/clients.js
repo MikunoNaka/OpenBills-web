@@ -22,11 +22,12 @@
 import { useState, useEffect } from 'react';
 
 import './scss/management-page.scss';
-import { getAllClients } from '../../classes/client';
+import { Client, getAllClients } from '../../classes/client';
 import ClientEditor from './../../components/editors/client-editor';
 import ClientTable from './../../components/tables/client-table';
 
 const ManageClientsPage = () => {
+  const [clientToEdit, setClientToEdit] = useState(new Client());
   const [allClients, setAllClients] = useState([]);
   // TODO: handle error
   const updateList = () =>
@@ -38,9 +39,27 @@ const ManageClientsPage = () => {
 
   return (
     <>
-      <ClientEditor heading={"Add New Client"} successCallback={updateList}/>
+      <ClientEditor
+        heading={"Add New Client"}
+        client={new Client()}
+        successCallback={updateList}/>
       <hr/>
-      <ClientTable refresh={updateList} clients={allClients}/>
+      <ClientTable
+        refresh={updateList}
+        clients={allClients}
+        setClientToEdit={setClientToEdit}/>
+
+      {JSON.stringify(clientToEdit) !== JSON.stringify(new Client()) &&
+        <div className={"floating-wrapper"}>
+          <ClientEditor
+            className={"floating-window"}
+            heading={`Edit ${clientToEdit.Name ? clientToEdit.Name : 'Client'}:`}
+            client={clientToEdit}
+            hide={() => setClientToEdit(new Client())}
+            editing={true}
+            callback={updateList}/>
+        </div>
+      }
     </>
   );
 }

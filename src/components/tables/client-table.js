@@ -19,8 +19,8 @@ import './scss/client-table.scss';
 import { deleteClient } from './../../classes/client';
 
 const ClientTable = (props) => {
-  const handleEdit = (i) => {
-    props.setItemToEdit(i)
+  const handleEdit = (c) => {
+    props.setClientToEdit(c)
   }
 
   const handleDelete = (c) => {

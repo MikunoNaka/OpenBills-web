@@ -15,18 +15,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-$primaryAccentColor: #bd93f9;
-$secondaryAccentColor: #d0afff;
+@import "../../../colors";
+
+$primaryAccentColor: $primaryAccentColor;
+$secondaryAccentColor: $secondaryAccentColor;
 
 $linkColor: $primaryAccentColor;
 
-$fgColor: white;
-$fgColorAlt: black;
-$fgColorDisabled: lightgray;
+$fgColor: $fgColor;
+$fgColorAlt: $darkFgColor;
+$fgColorDisabled: $disabledColor;
 
-$inputBackgroundColor: #00000000;
+$inputBackgroundColor: $backgroundColor;
 
-$warningColor: #ed4683;
+$warningColor: $warningColor;
 
 @mixin button {
     input[type=button] {

@@ -15,7 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Client, saveClient, Contact, Address } from './../../classes/client';
+import { Client, saveClient, editClient, Contact, Address } from './../../classes/client';
+import MultiAddressEditor from './multi-address-editor';
 import AddressEditor from './address-editor';
 import ContactEditor from './contact-editor';
 import './scss/client-editor.scss';
@@ -23,12 +24,16 @@ import './scss/client-editor.scss';
 import { useState, useEffect } from 'react';
 
 const ClientEditor = (props) => {
-  const [name, setName] = useState("");
-  const [GSTIN, setGSTIN] = useState([]);
-  const [contact, setContact] = useState(new Contact());
-  const [billingAddress, setBillingAddress] = useState(new Address());
-  const [shippingAddresses, setShippingAddresses] = useState([]);
-  const [shipToBillingAddress, setShipToBillingAddress] = useState(true);
+  const [name, setName] = useState(props.client.Name);
+  const [GSTIN, setGSTIN] = useState(props.client.GSTIN);
+  const [contact, setContact] = useState(props.client.Contact);
+  const [billingAddress, setBillingAddress] = useState(props.client.BillingAddress);
+  const [shippingAddresses, setShippingAddresses] = useState(props.client.ShippingAddresses);
+  const [shipToBillingAddress, setShipToBillingAddress] = useState(
+    props.client.ShippingAddresses.length === 1
+      ? JSON.stringify(props.client.ShippingAddresses[0]) === JSON.stringify(props.client.BillingAddress)
+      : props.client.ShippingAddresses.length === 0
+  );
 
   useEffect(() => {
     // will delete existing shipping addresses if false
@@ -47,13 +52,19 @@ const ClientEditor = (props) => {
       ? [billingAddress]
       : shippingAddresses
 
-    // TODO: Save is for new items. implement modification too
-    saveClient(client, handleSuccess, handleFail);
+    // remove blank phone numbers/email addresses
+    client.Contact.Phones = client.Contact.Phones.filter(i => i !== "");
+    client.Contact.Emails = client.Contact.Emails.filter(i => i !== "");
+
+    props.editing
+      ? editClient(client, handleSuccess, handleFail)
+      : saveClient(client, handleSuccess, handleFail);
   }
 
   const handleSuccess = () => {
     clearAll();
     props.successCallback();
+    props.editing && props.hide();
   }
 
   const handleFail = (err) => {
@@ -71,33 +82,12 @@ const ClientEditor = (props) => {
   }
 
   const handleCancel = () => {
-    // TODO: hide this component or something
     clearAll();
-  }
-
-  const handleShippingAddressUpdate = (id, data) => {
-    setShippingAddresses([
-      ...shippingAddresses.slice(0, id),
-      data,
-      ...shippingAddresses.slice(id+1)
-    ]);
-  }
-
-  const handleShippingAddressDelete = (id) => {
-    // deleting the last address sets
-    // shipToBillingAddress to true
-    if (shippingAddresses.length === 1) {
-      setShipToBillingAddress(true);
-    } else {
-      setShippingAddresses([
-        ...shippingAddresses.slice(0, id),
-        ...shippingAddresses.slice(id+1)
-      ]);
-    }
+    props.editing && props.hide();
   }
 
   return (
-    <div className={"editor-wrapper"}>
+    <div className={`editor-wrapper ${props.className ? props.className : ''}`}>
       <p>{props.heading}</p>
       <form onSubmit={handleSubmit} className={"editor client-editor"}>
         <div className={"top"}>
@@ -122,23 +112,21 @@ const ClientEditor = (props) => {
           setContact={setContact} />
         <AddressEditor
           heading={"Billing Address"}
+          address={billingAddress}
+          setAddress={(data) => setBillingAddress(prev => ({...prev, ...data}))}
           isBillingAddress={true}
           billingAddressIsShipping={shipToBillingAddress}
-          setShipToBillingAddress={setShipToBillingAddress}
-          address={billingAddress}
-          setAddress={setBillingAddress} />
+          setShipToBillingAddress={setShipToBillingAddress} />
 
-        {shippingAddresses.length > 0 && shippingAddresses.map((i, id) =>
-          <AddressEditor
-            key={id}
-            heading={`Shipping Address ${shippingAddresses.length === 1 ? '' : id + 1}`}
-            address={i}
-            deleteAddress={() => handleShippingAddressDelete(id)}
-            setAddress={(data) => handleShippingAddressUpdate(id, data)} />
-        )}
+        {shipToBillingAddress ||
+          <MultiAddressEditor
+            addresses={shippingAddresses}
+            setAddresses={setShippingAddresses}
+            setShipToBillingAddress={setShipToBillingAddress} />
+        }
 
-        <span className={`buttons ${shippingAddresses.length > 0 ? 'wide' : ''}`}>
-          {shippingAddresses.length > 0 &&
+        <span className={`buttons ${shipToBillingAddress  ? '' : 'wide'}`}>
+          {shipToBillingAddress ||
             <input
             className={"wide-button"}
             type="button"

@@ -16,62 +16,49 @@
  */
 
 import { Contact } from './../../classes/client';
+import { useState, useEffect } from 'react';
 import './scss/contact-editor.scss';
 
-const ContactEditor = (props) => {
-  const handleInput = (field, event) => {
-    const c = new Contact();
-    const val = event.target.value;
-    c.Name = field === "name" ? val : props.contact.Name;
-    c.Website = field === "website" ? val : props.contact.Website;
-    c.Phones = field === "phones"
-      ? (val.length === 0 ? [] : val.split("\n"))
-      : props.contact.Phones;
-    c.Emails = field === "emails"
-      ? (val.length === 0 ? [] : val.split("\n"))
-      : props.contact.Emails;
-    props.setContact(c);
-  }
+const ContactEditor = ({ heading, contact, setContact }) => {
+  const splitMultiline = (value) => value.split("\n")
+    .filter((i, id, arr) => id + 1 === arr.length || i !== "");
+
+  const handleInput = (data) =>
+    setContact(prev => ({...prev, ...data}));
 
   return (
     <div className={"contact-editor"}>
-      <p className={"heading"}>{props.heading}</p>
+      <p className={"heading"}>{heading}</p>
 
       <div className={"labels-wrapper"}>
         <label>
           Contact Name:
           <input
             type="text" name="name"
-            value={props.contact.Name} onChange={(e) => handleInput("name", e)} />
+            value={contact.Name} onChange={(e) => handleInput({Name: e.target.value})} />
         </label>
 
         <label>
           Website:
           <input
             type="text" name="name"
-            value={props.contact.Website} onChange={(e) => handleInput("website", e)} />
+            value={contact.Website} onChange={(e) => handleInput({Website: e.target.value})} />
         </label>
 
         <label>
           Phone:
           <textarea
             type="text" name="name"
-            value={props.contact.Phones.length > 0
-              ? props.contact.Phones.forEach(i => i)
-              : ""
-            }
-            onChange={(e) => handleInput("phones", e)} />
+            value={contact.Phones.join('\n')}
+            onChange={(e) => handleInput({Phones: splitMultiline(e.target.value)})} />
         </label>
 
         <label>
           E-mail:
           <textarea
             type="text" name="name"
-            value={props.contact.Emails.length > 0
-              ? props.contact.Emails.forEach(i => i)
-              : ""
-            }
-            onChange={(e) => handleInput("emails", e)} />
+            value={contact.Emails.join('\n')}
+            onChange={(e) => handleInput({Emails: splitMultiline(e.target.value)})} />
         </label>
       </div>
     </div>
