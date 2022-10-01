@@ -50,11 +50,13 @@ a {
     text-decoration: none;
 }
 
+$selectionColor: rgba($primaryAccentColor, 0.9)
+
 ::selection {
-  color: $fgColor;
-  background: $primaryAccentColor;
+  color: $darkgray;
+  background: $selectionColor;
 }
 ::-moz-selection {
-  color: $fgColor;
-  background: $primaryAccentColor;
+  color: $darkgray;
+  background: $selectionColor;
 }

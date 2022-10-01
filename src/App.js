@@ -19,6 +19,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './App.scss';
 import Navbar from './components/navbar/navbar';
 import HomePage from './views/homepage';
+import ManagementPage from './views/manage/manage';
 import ManageItemsPage from './views/manage/items';
 import ManageClientsPage from './views/manage/clients';
 import ManageBrandsPage from './views/manage/brands';
@@ -30,6 +31,7 @@ const App = () => {
       <main>
         <Routes>
           <Route exact path="/" element={<HomePage/>}/>
+          <Route exact path="/manage" element={<ManagementPage/>}/>
           <Route exact path="/manage/items" element={<ManageItemsPage/>}/>
           <Route exact path="/manage/clients" element={<ManageClientsPage/>}/>
           <Route exact path="/manage/brands" element={<ManageBrandsPage/>}/>
