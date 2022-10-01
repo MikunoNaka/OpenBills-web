@@ -35,22 +35,23 @@ const ClientEditor = (props) => {
       : props.client.ShippingAddresses.length === 0
   );
 
-  useEffect(() => {
-    // will delete existing shipping addresses if false
-    setShippingAddresses(shipToBillingAddress ? [] : [new Address()])
-  }, [shipToBillingAddress]);
+  // will delete existing shipping addresses if false
+  useEffect(() =>
+    setShippingAddresses(shipToBillingAddress ? [] : (shippingAddresses.length > 0 ? shippingAddresses : [new Address()]))
+  , [shipToBillingAddress]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const client = new Client();
+    client.Id = props.client.Id;
     client.Name = name;
     client.GSTIN = GSTIN;
     client.Contact = contact;
     client.BillingAddress = billingAddress;
     client.ShippingAddresses = shipToBillingAddress
       ? [billingAddress]
-      : shippingAddresses
+      : shippingAddresses;
 
     // remove blank phone numbers/email addresses
     client.Contact.Phones = client.Contact.Phones.filter(i => i !== "");
@@ -61,20 +62,21 @@ const ClientEditor = (props) => {
       : saveClient(client, handleSuccess, handleFail);
   }
 
-  const handleSuccess = () => {
+  const handleSuccess = (res) => {
+    console.log("Successfully saved client", res)
     clearAll();
     props.successCallback();
     props.editing && props.hide();
   }
 
   const handleFail = (err) => {
-    alert("fail");
+    alert("error while saving client. please check logs");
     console.log(err);
   }
 
   const clearAll = () => {
     setName("");
-    setGSTIN("")
+    setGSTIN("");
     setContact(new Contact());
     setBillingAddress(new Address());
     setShippingAddresses([]);

@@ -18,17 +18,13 @@
 import { Address } from './../../classes/client';
 import AddressEditor from './address-editor';
 
-import { useState, useEffect } from 'react';
-
 const MultiAddressEditor = ({addresses, setAddresses, setShipToBillingAddress}) => {
+  console.log(addresses)
   const handleChange = (id, data) => {
-    console.log(id, data)
-
     const newAddresses = [...addresses];
     newAddresses[id] = {
       ...newAddresses[id], ...data
     }
-
     setAddresses(newAddresses)
   }
 
