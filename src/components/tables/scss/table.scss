@@ -15,20 +15,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+@import "colors";
+
 table {
     width: 90%;
     margin: auto;
 
     th {
         box-sizing: border-box;
-        background-color: #383a59;
+        background-color: $thColor;
         font-weight: normal;
         text-align: left;
         padding-left: 0.3rem;
     }
 
     tr:hover {
-        background-color: rgba(#383a59, 0.4);
+        background-color: rgba($thColor, 0.4);
     }
 
     td {

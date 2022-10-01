@@ -15,8 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import './App.scss';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import './App.scss';
+import Navbar from './components/navbar/navbar';
+import HomePage from './views/homepage';
 import ManageItemsPage from './views/manage/items';
 import ManageClientsPage from './views/manage/clients';
 import ManageBrandsPage from './views/manage/brands';
@@ -24,8 +26,10 @@ import ManageBrandsPage from './views/manage/brands';
 const App = () => {
   return (
     <BrowserRouter>
+      <Navbar/>
       <main>
         <Routes>
+          <Route exact path="/" element={<HomePage/>}/>
           <Route exact path="/manage/items" element={<ManageItemsPage/>}/>
           <Route exact path="/manage/clients" element={<ManageClientsPage/>}/>
           <Route exact path="/manage/brands" element={<ManageBrandsPage/>}/>

@@ -15,19 +15,45 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import NewBrand from './../components/doc-editors/new-brand';
-import ItemEditor from './../components/doc-editors/item-editor';
+@import "../../colors";
 
-const NewInvoicePage = () => {
-  return (
-    <>
-      <h1>Billing Page</h1>
-      <h2>Add new brand:</h2>
-      <NewBrand/>
-      <h2>Add new item:</h2>
-      <ItemEditor/>
-    </>
-  );
+.navbar {
+  height: 4rem;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: rgba($altBackgroundColor, 1);
+  position: relative;
+
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .buttons {
+    flex: 1;
+    display: flex;
+    justify-content: right;
+    a {
+      margin-left: 0.3rem;
+      margin-right: 0.3rem;
+      color: $fgColor;
+    }
+    a.current {
+      color: $linkColor;
+    }
+  }
+
+  .status {
+    flex: 2;
+    text-align: center;
+  }
+
+  .logo {
+    flex: 1;
+    img {
+      height: 4rem;
+    }
+  }
 }
-
-export default NewInvoicePage;

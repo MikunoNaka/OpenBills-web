@@ -15,19 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-$primaryAccentColor: #bd93f9;
-$secondaryAccentColor: #d0afff;
+const HomePage = () => {
+  return (
+    <>
+      <h1>Welcome to OpenBills</h1>
+      <p>Check out <a href="/manage">/manage</a></p>
+    </>
+  );
+}
 
-$backgroundColor: #282a36;
-$altBackgroundColor: #383a59;
-$linkColor: $primaryAccentColor;
-
-$white: #f8f8f2;
-$gray: lightgray;
-$black: black;
-
-$warningColor: #ed4683;
-
-$fgColor: $white;
-$darkFgColor: $black;
-$disabledColor: $gray;
+export default HomePage;

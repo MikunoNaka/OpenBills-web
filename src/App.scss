@@ -35,7 +35,7 @@ main {
     width: 100%;
     max-width: 1500px;
     margin: 0 auto;
-    min-height: 100vh;
+    min-height: calc(100vh - 4rem);
     padding: 0.7rem 0.5rem;
     box-sizing: border-box;
 }
@@ -48,4 +48,13 @@ hr {
 a {
     color: $linkColor;
     text-decoration: none;
+}
+
+::selection {
+  color: $fgColor;
+  background: $primaryAccentColor;
+}
+::-moz-selection {
+  color: $fgColor;
+  background: $primaryAccentColor;
 }
