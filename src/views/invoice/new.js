@@ -15,15 +15,31 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Link } from 'react-router-dom';
+import ClientPicker from '../../components/pickers/client-picker';
+import ItemPicker from '../../components/pickers/item-picker';
 
-const HomePage = () => {
+import { InvoiceClient } from '../../classes/client';
+
+import { useState, useEffect } from 'react';
+
+const NewInvoicePage = () => {
+  const [client, setClient] = useState(new InvoiceClient());
+  const [shippingAddressId, setShippingAddressId] = useState(-1);
+
+  useEffect(() => {
+    setShippingAddressId(-1);
+  }, [client]);
+
   return (
     <>
-      <h1>Welcome to OpenBills</h1>
-      <p>Check out <Link to="/manage">/manage</Link></p>
+      <ClientPicker
+        client={client}
+        setClient={setClient}
+        shippingAddressId={shippingAddressId}
+        setShippingAddressId={setShippingAddressId}/>
+      <ItemPicker/>
     </>
   );
 }
 
-export default HomePage;
+export default NewInvoicePage;

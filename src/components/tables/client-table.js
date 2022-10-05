@@ -70,7 +70,7 @@ const ClientTable = (props) => {
             </div>
 
             <div className={"billing-address"}>
-              <p className={"heading"}><strong>Billing Address: </strong></p>
+              <p><strong>Billing Address: </strong></p>
               <p className={"multiline"}>{i.BillingAddress.Text}</p>
               <p>{i.BillingAddress.City}, {i.BillingAddress.State} - {i.BillingAddress.PostalCode} ({i.BillingAddress.Country})</p>
             </div>
@@ -79,7 +79,7 @@ const ClientTable = (props) => {
               <div className={"shipping-addresses"}>
                 {i.ShippingAddresses.map((j, id) =>
                   <div key={id} className={"shipping-address"}>
-                    <p><strong>{`Shipping Address ${i.ShippingAddresses.length === 1 ? '' : id + 1}`}</strong></p>
+                    <p><strong>{`Shipping Address ${i.ShippingAddresses.length === 1 ? '' : id + 1}:`}</strong></p>
                     <p className={"multiline"}>{j.Text}</p>
                     <p>{j.City}, {j.State} - {j.PostalCode} ({j.Country})</p>
                   </div>

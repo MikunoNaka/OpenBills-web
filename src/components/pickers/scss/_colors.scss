@@ -15,15 +15,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Link } from 'react-router-dom';
+@import "../../../colors";
 
-const HomePage = () => {
-  return (
-    <>
-      <h1>Welcome to OpenBills</h1>
-      <p>Check out <Link to="/manage">/manage</Link></p>
-    </>
-  );
-}
+$primaryAccentColor: $primaryAccentColor;
+$secondaryAccentColor: $secondaryAccentColor;
 
-export default HomePage;
+$fgColor: $fgColor;
+$fgColorAlt: $black;
+
+$inputBackgroundColor: $backgroundColor;
+
+$warningColor: $warningColor;

@@ -1,0 +1,105 @@
+/* OpenBills-web - Web based libre billing software
+ * Copyright (C) 2022  Vidhu Kant Sharma <vidhukant@vidhukant.xyz>
+
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+@import "colors";
+
+@mixin label {
+    label {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 24rem;
+        width: 90%;
+        padding: 0.3rem 0.1rem;
+        border-bottom: 1px dotted $secondaryAccentColor;
+
+        select,input {
+            padding: 0.2rem;
+            max-width: 13rem;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: $inputBackgroundColor;
+            border: 1px solid $primaryAccentColor;
+            color: $fgColor;
+            border-radius: 4px;
+            outline: 0;
+            font-size: 0.8rem;
+        }
+        textarea {
+            background-color: $inputBackgroundColor;
+            color: $fgColor;
+            outline: 0;
+            border: 1px solid $primaryAccentColor;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 0.8rem;
+        }
+    }
+}
+
+@mixin picker-wrapper {
+    width: 100%;
+    margin: auto;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    p.heading {
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.1rem;
+        color: $primaryAccentColor;
+    }
+}
+
+@mixin picker {
+    .picker {
+        padding-bottom: 2.5rem;
+        margin: auto;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        align-items: center;
+        min-width: 90%;
+        @include label;
+
+        .buttons {
+            position: absolute;
+            display: flex;
+            justify-content: space-between;
+            width: 13.5rem;
+            input {
+                padding: 0.2rem 0;
+                width: 4rem;
+                background-color: $inputBackgroundColor;
+                border: 1px solid $primaryAccentColor;
+                color: $fgColor;
+                border-radius: 4px;
+                transition: background-color 0.4s, color 0.4s;
+            }
+            input:hover {
+                background-color: $primaryAccentColor;
+                color: $fgColorAlt;
+            }
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+    }
+}

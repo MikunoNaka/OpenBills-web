@@ -15,15 +15,33 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Link } from 'react-router-dom';
+@import "picker";
 
-const HomePage = () => {
-  return (
-    <>
-      <h1>Welcome to OpenBills</h1>
-      <p>Check out <Link to="/manage">/manage</Link></p>
-    </>
-  );
+
+.picker-wrapper {
+    @include picker-wrapper;
+    @include label;
 }
 
-export default HomePage;
+.client-picker {
+    display: flex;
+    justify-content: space-evenly;
+    .options {
+        width: 27rem;
+    }
+    .billing-address,
+    .shipping-address,
+    .contact-info {
+        p { margin: 0 }
+        max-width: 24rem;
+        margin: 0 1rem;
+    }
+    .contact-info {
+        .icon {
+            font-size: 0.9rem;
+        }
+    }
+    .multiline {
+      white-space: pre-line;
+    }
+}

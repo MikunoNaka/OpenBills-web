@@ -47,6 +47,13 @@ export class Client {
   }
 }
 
+export class InvoiceClient extends Client {
+  constructor() {
+    super();
+    this.ShipTo = new Address();
+  }
+}
+
 export const saveClient = (item, ok, fail) => {
   axios.post("/client/new", item)
     .then(res => ok(res))

@@ -15,15 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Link } from 'react-router-dom';
+const ItemPicker = () => {
 
-const HomePage = () => {
-  return (
-    <>
-      <h1>Welcome to OpenBills</h1>
-      <p>Check out <Link to="/manage">/manage</Link></p>
-    </>
-  );
 }
 
-export default HomePage;
+export default ItemPicker;
