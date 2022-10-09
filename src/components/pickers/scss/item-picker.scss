@@ -17,13 +17,12 @@
 
 @import "picker";
 
-
 .picker-wrapper {
     @include picker-wrapper;
     @include label;
 }
 
-.client-picker {
+.item-picker {
     display: flex;
     justify-content: space-evenly;
     .options {
@@ -44,6 +43,17 @@
         }
     }
     .multiline {
-      white-space: pre-line;
+        white-space: pre-line;
+    }
+
+    input[type=number], input.narrow {
+        -moz-appearance: textfield;
+        width: 7rem;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
     }
 }

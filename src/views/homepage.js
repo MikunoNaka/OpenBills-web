@@ -22,6 +22,7 @@ const HomePage = () => {
     <>
       <h1>Welcome to OpenBills</h1>
       <p>Check out <Link to="/manage">/manage</Link></p>
+      <p>"Create" new invoice at <Link to="/invoice/new">Create New Invoice</Link></p>
     </>
   );
 }

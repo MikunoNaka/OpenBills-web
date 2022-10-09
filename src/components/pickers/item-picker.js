@@ -15,8 +15,107 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const ItemPicker = () => {
+import { Item, InvoiceItem, getAllItems } from '../../classes/item';
+import './scss/item-picker.scss';
 
+import { useState, useEffect } from 'react';
+//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+//import { faPhone, faEnvelope, faGlobe } from '@fortawesome/free-solid-svg-icons'
+
+const ItemPicker = () => {
+  const [items, setItems] = useState([new Item()]);
+  const [item, setItem] = useState(new InvoiceItem());
+
+  useEffect(() => refreshItems, []);
+
+  const refreshItems = () =>
+    getAllItems(setItems, () => {});
+
+  const handleItemSelect = e => {
+    const i = items.find(i => i.Id === e.target.value);
+    setItem(prevItem => i ? ({...prevItem, ...i}) : new InvoiceItem());
+  }
+
+  const handleInput = e => {
+    const { name, value } = e.target;
+    setItem(prevItem => ({
+      ...prevItem,
+      [name]: value
+    }));
+  }
+
+  return (
+    <div className={"picker-wrapper"}>
+      <p className={"heading"}>Add an Item</p>
+      <div className={"item-picker"}>
+        {items && items.length > 0 &&
+          <>
+            <label>
+              Product/Service:
+              <select value={item.Id ? item.Id : ""} onChange={handleItemSelect}>
+                <option key="placeholder" value={""} disabled>Select an Item</option>
+                {items.map(i =>
+                  <option key={i.Id} value={i.Id}>{i.Name}{i.Brand.Id === null ? "" : " - " + i.Brand.Name}</option>
+                )}
+              </select>
+            </label>
+            <label>
+              Description:
+                <input
+                  type="text"
+                  value={item.Description}
+                  name="Description"
+                  onChange={handleInput} />
+            </label>
+            <label>
+              Quantity:
+                <input
+                  type="number"
+                  value={item.Quantity}
+                  name="Quantity"
+                  min={item.MinQuantity}
+                  max={item.MaxQuantity}
+                  onChange={handleInput} />
+            </label>
+            <label>
+              Price:
+                <input
+                  type="number"
+                  value={item.UnitPrice}
+                  name="UnitPrice"
+                  onChange={handleInput} />
+            </label>
+            <label>
+              Discount %:
+                <input
+                  type="number"
+                  value={item.DiscountPercentage}
+                  name="DiscountPercentage"
+                  onChange={handleInput} />
+            </label>
+            <label>
+              HSN:
+                <input
+                  className={"narrow"}
+                  type="text"
+                  value={item.HSN}
+                  name="HSN"
+                  onChange={handleInput} />
+            </label>
+            <label>
+              GST %:
+                <input
+                  type="number"
+                  value={item.GSTPercentage}
+                  name="GSTPercentage"
+                  onChange={handleInput} />
+            </label>
+          </>
+        }
+      </div>
+      <hr/>
+    </div>
+  );
 }
 
 export default ItemPicker;
