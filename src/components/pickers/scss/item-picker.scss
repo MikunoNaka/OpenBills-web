@@ -23,8 +23,13 @@
 }
 
 .item-picker {
-    display: flex;
-    justify-content: space-evenly;
+    //display: flex;
+    //flex-wrap: wrap;
+    //justify-content: space-between;
+    //align-items: center;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+
     .options {
         width: 27rem;
         flex-grow: 1;
@@ -46,14 +51,36 @@
         white-space: pre-line;
     }
 
-    input[type=number], input.narrow {
+    label.narrow {
+        max-width: 16rem;
+        input { width: 7rem; }
+    }
+
+    input[type=number] {
         -moz-appearance: textfield;
         width: 7rem;
     }
-
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
+    }
+
+    input[type=button], input[type=submit] {
+        padding: 0.2rem 0;
+        width: 4rem;
+        height: 1.7rem;
+        margin-top: 0.3rem;
+        margin-left: auto;
+        background-color: $inputBackgroundColor;
+        border: 1px solid $primaryAccentColor;
+        color: $fgColor;
+        border-radius: 4px;
+        transition: background-color 0.4s, color 0.4s;
+    }
+
+    input[type=button]:hover, input[type=submit]:hover {
+        background-color: $primaryAccentColor;
+        color: $fgColorAlt;
     }
 }

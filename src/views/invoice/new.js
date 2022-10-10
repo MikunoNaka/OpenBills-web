@@ -17,6 +17,7 @@
 
 import ClientPicker from '../../components/pickers/client-picker';
 import ItemPicker from '../../components/pickers/item-picker';
+import ItemTable from '../../components/tables/invoice-item-table';
 
 import { InvoiceClient } from '../../classes/client';
 
@@ -25,6 +26,7 @@ import { useState, useEffect } from 'react';
 const NewInvoicePage = () => {
   const [client, setClient] = useState(new InvoiceClient());
   const [shippingAddressId, setShippingAddressId] = useState(-1);
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
     setShippingAddressId(-1);
@@ -37,7 +39,12 @@ const NewInvoicePage = () => {
         setClient={setClient}
         shippingAddressId={shippingAddressId}
         setShippingAddressId={setShippingAddressId}/>
-      <ItemPicker/>
+      <ItemPicker
+        invoiceItems={items}
+        addInvoiceItem={(item) => setItems(prev => [...prev, item])} />
+      <ItemTable
+        items={items}
+        setItems={setItems} />
     </>
   );
 }

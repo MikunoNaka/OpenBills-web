@@ -10,8 +10,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
-
- * You should have received a copy of the GNU General Public License
+* You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
@@ -19,10 +18,11 @@ import { Item, InvoiceItem, getAllItems } from '../../classes/item';
 import './scss/item-picker.scss';
 
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 //import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 //import { faPhone, faEnvelope, faGlobe } from '@fortawesome/free-solid-svg-icons'
 
-const ItemPicker = () => {
+const ItemPicker = ({invoiceItems, addInvoiceItem}) => {
   const [items, setItems] = useState([new Item()]);
   const [item, setItem] = useState(new InvoiceItem());
 
@@ -44,30 +44,33 @@ const ItemPicker = () => {
     }));
   }
 
+  // add item to the invoice items list
+  const addItem = (e) => {
+    e.preventDefault();
+    addInvoiceItem(item);
+    setItem(new InvoiceItem());
+  }
+
+  // input elements are sorted on the basis of
+  // how likely they are going to be edited
   return (
     <div className={"picker-wrapper"}>
       <p className={"heading"}>Add an Item</p>
-      <div className={"item-picker"}>
-        {items && items.length > 0 &&
+      <form className={"item-picker"} onSubmit={addItem}>
+        {items.length > 0 ?
           <>
             <label>
               Product/Service:
               <select value={item.Id ? item.Id : ""} onChange={handleItemSelect}>
                 <option key="placeholder" value={""} disabled>Select an Item</option>
                 {items.map(i =>
-                  <option key={i.Id} value={i.Id}>{i.Name}{i.Brand.Id === null ? "" : " - " + i.Brand.Name}</option>
+                  <option key={i.Id} value={i.Id} disabled={invoiceItems.some(j => j.Id === i.Id)}>
+                    {i.Name}{i.Brand.Id === null ? "" : " - " + i.Brand.Name}
+                  </option>
                 )}
               </select>
             </label>
-            <label>
-              Description:
-                <input
-                  type="text"
-                  value={item.Description}
-                  name="Description"
-                  onChange={handleInput} />
-            </label>
-            <label>
+            <label className={"narrow"}>
               Quantity:
                 <input
                   type="number"
@@ -77,7 +80,7 @@ const ItemPicker = () => {
                   max={item.MaxQuantity}
                   onChange={handleInput} />
             </label>
-            <label>
+            <label className={"narrow"}>
               Price:
                 <input
                   type="number"
@@ -85,7 +88,7 @@ const ItemPicker = () => {
                   name="UnitPrice"
                   onChange={handleInput} />
             </label>
-            <label>
+            <label className={"narrow"}>
               Discount %:
                 <input
                   type="number"
@@ -94,15 +97,22 @@ const ItemPicker = () => {
                   onChange={handleInput} />
             </label>
             <label>
+              Description:
+                <input
+                  type="text"
+                  value={item.Description}
+                  name="Description"
+                  onChange={handleInput} />
+            </label>
+            <label className={"narrow"}>
               HSN:
                 <input
-                  className={"narrow"}
                   type="text"
                   value={item.HSN}
                   name="HSN"
                   onChange={handleInput} />
             </label>
-            <label>
+            <label className={"narrow"}>
               GST %:
                 <input
                   type="number"
@@ -110,9 +120,13 @@ const ItemPicker = () => {
                   name="GSTPercentage"
                   onChange={handleInput} />
             </label>
-          </>
+            <input type="submit" value="Add"/>
+          </> :
+          <Link to="/manage/items">
+            <input type="button" value="Add Items"/>
+          </Link>
         }
-      </div>
+      </form>
       <hr/>
     </div>
   );
