@@ -16,11 +16,11 @@
  */
 
 import './scss/table.scss';
-import { deleteItem } from './../../classes/item';
+import { deleteItem, getDiscountValue, getGSTValue, getAmount } from './../../classes/item';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 
-const ItemTable = ({items, setItems}) => {
+const ItemTable = ({items, setItems, isInterstate, sum}) => {
   const handleEdit = (i) => {
     alert("coming soon; please delete and add item again");
   }
@@ -29,15 +29,7 @@ const ItemTable = ({items, setItems}) => {
     setItems(items.filter(i => i.Id !== item.Id));
   }
 
-  /* TODO: all the math should be done here
-   * i.e CGST, IGST, total price (i.e price x quantity)
-   * discount/gst value (i.e number instead of percentage)
-   *
-   * the total cost and the like may be handled by
-   * parent component since they are needed
-   * by other things (probably)
-   *
-   * all the values will be calculated on runtime.
+  /* all the values will be calculated on runtime.
    * the database will only store the unit price
    * and gst/discount *percentages* and everything else
    * will be calculated on runtime. i.e the
@@ -45,40 +37,80 @@ const ItemTable = ({items, setItems}) => {
    * those same values shown to the user while creating the invoice
    */
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>S. No</th>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Brand Name</th>
-          <th>UOM</th>
-          <th>HSN</th>
-          <th>Unit Price</th>
-          <th>GST %</th>
-          {/* TODO: CGST, IGST, etc */}
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {items && items.map((i, id=id+1) => (
-          <tr key={id}>
-            <td>{id+1}</td>
-            <td className={i.Name === "" ? "empty" : ""}>{i.Name}</td>
-            <td className={i.Description === "" ? "empty" : ""}>{i.Description}</td>
-            <td className={i.Brand.Name === "" ? "empty" : ""}>{i.Brand.Name}</td>
-            <td className={i.UnitOfMeasure === "" ? "empty" : ""}>{i.UnitOfMeasure}</td>
-            <td className={i.HSN === "" ? "empty" : ""}>{i.HSN}</td>
-            <td className={i.UnitPrice === 0.0 ? "empty" : ""}>{i.UnitPrice}</td>
-            <td className={i.GSTPercentage === 0.0 ? "empty" : ""}>{i.GSTPercentage}</td>
+    <>
+      <table>
+        <thead>
+          <tr>
+            <th>S. No</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Brand Name</th>
+            <th>Quantity</th>
+            <th>UOM</th>
+            <th>Unit Price</th>
+            <th>Discount (%)</th>
+            {isInterstate
+              ? <th>IGST (%)</th>
+              : <>
+                <th>SGST (%)</th>
+                <th>CGST (%)</th>
+              </>
+            }
+            <th>HSN</th>
+            <th>Amount</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {items && items.map((i, id) => (
+            <tr key={id}>
+              <td>{id+1}</td>
+              <td className={i.Name === "" ? "empty" : ""}>{i.Name}</td>
+              <td className={i.Description === "" ? "empty" : ""}>{i.Description}</td>
+              <td className={i.Brand.Name === "" ? "empty" : ""}>{i.Brand.Name}</td>
+              <td>{i.Quantity}</td>
+              <td className={i.UnitOfMeasure === "" ? "empty" : ""}>{i.UnitOfMeasure}</td>
+              <td className={i.UnitPrice > 0 ? "" : "empty"}>{i.UnitPrice}</td>
+              <td className={i.DiscountPercentage > 0 ? "" : "empty"}>{getDiscountValue(i)} ({i.DiscountPercentage}%)</td>
+              {isInterstate
+                ? <td className={i.GSTPercentage > 0 ? "" : "empty"}>{getGSTValue(i)} ({i.GSTPercentage}%)</td>
+                : <>
+                  <td className={i.GSTPercentage > 0 ? "" : "empty"}>{getGSTValue(i) / 2} ({i.GSTPercentage / 2}%)</td>
+                  <td className={i.GSTPercentage > 0 ? "" : "empty"}>{getGSTValue(i) / 2} ({i.GSTPercentage / 2}%)</td>
+                </>
+              }
+              <td className={i.HSN === "" ? "empty" : ""}>{i.HSN}</td>
+              <td>{getAmount(i)}</td>
+              <td className={"buttons"}>
+                <FontAwesomeIcon icon={faPencil} onClick={() => handleEdit(i)}/>
+                <FontAwesomeIcon icon={faTrashCan} onClick={() => handleDelete(i)}/>
+              </td>
+            </tr>
+          ))}
+          <tr className={"total"}>
+            <td>Total</td>
+            <td className={"empty"}></td>
+            <td className={"empty"}></td>
+            <td className={"empty"}></td>
+            <td className={sum.Quantity > 0 ? "" : "empty"}>{sum.Quantity}</td>
+            <td className={"empty"}></td>
+            <td className={sum.UnitPrice > 0 ? "" : "empty"}>{sum.UnitPrice}</td>
+            <td className={sum.Discount > 0 ? "" : "empty"}>{sum.Discount}</td>
+            {isInterstate
+              ? <td className={sum.GST > 0 ? "" : "empty"}>{sum.GST}</td>
+              : <>
+                <td className={sum.GST > 0 ? "" : "empty"}>{sum.GST / 2}</td>
+                <td className={sum.GST > 0 ? "" : "empty"}>{sum.GST / 2}</td>
+              </>
+            }
+            <td className={"empty"}></td>
+            <td className={sum.Amount > 0 ? "" : "empty"}>{sum.Amount}</td>
             <td className={"buttons"}>
-              <FontAwesomeIcon icon={faPencil} onClick={() => handleEdit(i)}/>
-              <FontAwesomeIcon icon={faTrashCan} onClick={() => handleDelete(i)}/>
             </td>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </>
   );
 }
 

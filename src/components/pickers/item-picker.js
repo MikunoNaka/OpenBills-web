@@ -37,10 +37,10 @@ const ItemPicker = ({invoiceItems, addInvoiceItem}) => {
   }
 
   const handleInput = e => {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
     setItem(prevItem => ({
       ...prevItem,
-      [name]: value
+      [name]: type === "number" ? parseFloat(value) : value
     }));
   }
 
@@ -65,7 +65,7 @@ const ItemPicker = ({invoiceItems, addInvoiceItem}) => {
                 <option key="placeholder" value={""} disabled>Select an Item</option>
                 {items.map(i =>
                   <option key={i.Id} value={i.Id} disabled={invoiceItems.some(j => j.Id === i.Id)}>
-                    {i.Name}{i.Brand.Id === null ? "" : " - " + i.Brand.Name}
+                    {i.Name}{i.Brand.Id === undefined ? "" : " - " + i.Brand.Name}
                   </option>
                 )}
               </select>
@@ -76,8 +76,8 @@ const ItemPicker = ({invoiceItems, addInvoiceItem}) => {
                   type="number"
                   value={item.Quantity}
                   name="Quantity"
-                  min={item.MinQuantity}
-                  max={item.MaxQuantity}
+                  min={item.MinQuantity > 0 ? item.MinQuantity : 1}
+                  max={item.MaxQuantity > 0 ? item.MaxQuantity : null}
                   onChange={handleInput} />
             </label>
             <label className={"narrow"}>

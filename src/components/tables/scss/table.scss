@@ -53,3 +53,11 @@ table {
       white-space: pre-line;
     }
 }
+
+table .total {
+    font-size: 1.2em;
+    color: $primaryAccentColor;
+    td:not(.empty) {
+        border-color: $secondaryAccentColor;
+    }
+}

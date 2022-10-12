@@ -64,3 +64,20 @@ export const editItem = (item, ok, fail) => {
     .then(res => ok())
     .catch(err => fail())
 }
+
+export const getDiscountValue = (item) => item.DiscountPercentage > 0
+  ? ((item.UnitPrice * item.Quantity)/100) * item.DiscountPercentage : 0.00;
+
+export const getGSTValue = (item) => item.GSTPercentage > 0
+  ? (((item.UnitPrice * item.Quantity) - getDiscountValue(item))/100) * item.GSTPercentage : 0.00;
+
+export const getAmount = (item) =>
+  (item.UnitPrice * item.Quantity) - getDiscountValue(item) + getGSTValue(item)
+
+export const calcSum = (items) => items.reduce((prev, current, id, arr) => ({
+  GST: prev.GST + getGSTValue(current),
+  Discount: prev.Discount + getDiscountValue(current),
+  UnitPrice: prev.UnitPrice + current.UnitPrice,
+  Amount: prev.Amount + getAmount(current),
+  Quantity: prev.Quantity + current.Quantity
+}), {GST: 0, Discount: 0, UnitPrice: 0, Amount: 0, Quantity: 0});
