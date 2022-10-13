@@ -28,7 +28,7 @@ const ItemEditor = (props) => {
   const [unit, setUnit] = useState(props.item.UnitOfMeasure);
   const [unitPrice, setUnitPrice] = useState(props.item.UnitPrice);
   const [gstP, setGSTP] = useState(props.item.GSTPercentage);
-  const [minQty, setMinQty] = useState(props.item.MinQuantity);
+  const [minQty, setMinQty] = useState(props.item.MinQuantity > 0 ? props.item.MinQuantity : 1);
   const [maxQty, setMaxQty] = useState(props.item.MaxQuantity);
   const [brand, setBrand] = useState(props.item.Brand);
   const [savedBrands, setSavedBrands] = useState([]);
@@ -163,7 +163,7 @@ const ItemEditor = (props) => {
           Minimum Quantity:
           <input
             type="number"
-            value={minQty == "0" ? "" : minQty}
+            value={minQty === 0 ? "" : minQty}
             min="0"
             onChange={(e) => setMinQty(e.target.value)} />
         </label>
@@ -172,7 +172,7 @@ const ItemEditor = (props) => {
           Maximum Quantity:
           <input
             type="number"
-            value={maxQty == "0" ? "" : maxQty}
+            value={maxQty === 0 ? "" : maxQty}
             min="0"
             onChange={(e) => setMaxQty(e.target.value)} />
         </label>

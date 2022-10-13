@@ -15,7 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Address } from './../../classes/client';
 import AddressEditor from './address-editor';
 
 const MultiAddressEditor = ({addresses, setAddresses, setShipToBillingAddress}) => {

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Client, InvoiceClient, getAllClients, Address } from '../../classes/client';
+import { Client, InvoiceClient, getAllClients } from '../../classes/client';
 import './scss/client-picker.scss';
 
 import { useState, useEffect } from 'react';

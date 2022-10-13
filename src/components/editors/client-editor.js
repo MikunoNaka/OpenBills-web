@@ -38,7 +38,7 @@ const ClientEditor = (props) => {
   // will delete existing shipping addresses if false
   useEffect(() =>
     setShippingAddresses(shipToBillingAddress ? [] : (shippingAddresses.length > 0 ? shippingAddresses : [new Address()]))
-  , [shipToBillingAddress]);
+  , [shipToBillingAddress, shippingAddresses]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

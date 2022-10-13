@@ -15,8 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Contact } from './../../classes/client';
-import { useState, useEffect } from 'react';
 import './scss/contact-editor.scss';
 
 const ContactEditor = ({ heading, contact, setContact }) => {

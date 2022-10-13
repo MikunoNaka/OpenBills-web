@@ -16,7 +16,7 @@
  */
 
 import './scss/table.scss';
-import { deleteItem, getDiscountValue, getGSTValue, getAmount } from './../../classes/item';
+import { getDiscountValue, getGSTValue, getAmount } from './../../classes/item';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 
@@ -97,10 +97,10 @@ const ItemTable = ({items, setItems, isInterstate, sum}) => {
             <td className={sum.UnitPrice > 0 ? "" : "empty"}>{sum.UnitPrice}</td>
             <td className={sum.Discount > 0 ? "" : "empty"}>{sum.Discount}</td>
             {isInterstate
-              ? <td className={sum.GST > 0 ? "" : "empty"}>{sum.GST}</td>
+              ? <td className={sum.GST > 0 ? "" : "empty"}>{sum.GST || 0}</td>
               : <>
-                <td className={sum.GST > 0 ? "" : "empty"}>{sum.GST / 2}</td>
-                <td className={sum.GST > 0 ? "" : "empty"}>{sum.GST / 2}</td>
+                <td className={sum.GST > 0 ? "" : "empty"}>{sum.GST / 2 || 0}</td>
+                <td className={sum.GST > 0 ? "" : "empty"}>{sum.GST / 2 || 0}</td>
               </>
             }
             <td className={"empty"}></td>

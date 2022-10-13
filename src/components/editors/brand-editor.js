@@ -18,7 +18,7 @@
 import { Brand, saveBrand, editBrand } from './../../classes/brand'
 import './scss/brand-editor.scss'
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const BrandEditor = (props) => {
   const [name, setName] = useState(props.brand.Name);
@@ -52,11 +52,6 @@ const BrandEditor = (props) => {
   const handleCancel = () => {
     clearAll();
     props.editing && props.hide();
-  }
-
-  const validateFloatInput = (e, callback) => {
-    const f = parseFloat(e.target.value);
-    f && callback(f)
   }
 
   return (

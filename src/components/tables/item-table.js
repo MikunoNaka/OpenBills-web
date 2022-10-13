@@ -56,7 +56,7 @@ const ItemTable = (props) => {
         </tr>
       </thead>
       <tbody>
-        {props.items && props.items.map((i, id=id+1) => (
+        {props.items && props.items.map((i, id) => (
           <tr key={id}>
             <td>{id+1}</td>
             <td className={i.Name === "" ? "empty" : ""}>{i.Name}</td>

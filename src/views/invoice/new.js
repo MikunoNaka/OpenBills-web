@@ -18,6 +18,7 @@
 import ClientPicker from '../../components/pickers/client-picker';
 import ItemPicker from '../../components/pickers/item-picker';
 import ItemTable from '../../components/tables/invoice-item-table';
+import InvoiceSummary from '../../components/tables/invoice-summary';
 
 import { InvoiceClient } from '../../classes/client';
 import { calcSum } from '../../classes/item';
@@ -28,7 +29,8 @@ const NewInvoicePage = () => {
   const [client, setClient] = useState(new InvoiceClient());
   const [shippingAddressId, setShippingAddressId] = useState(-1);
   const [items, setItems] = useState([]);
-  const [isInterstate, setIsInterstate] = useState(false);
+  //const [isInterstate, setIsInterstate] = useState(false);
+  const isInterstate = false; // temporary
   const [sum, setSum] = useState({});
 
   useEffect(() => setShippingAddressId(-1), [client]);
@@ -50,6 +52,7 @@ const NewInvoicePage = () => {
         setItems={setItems}
         isInterstate={isInterstate}
         sum={sum} />
+      <InvoiceSummary sum={sum} />
     </>
   );
 }

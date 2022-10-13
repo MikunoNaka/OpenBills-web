@@ -83,4 +83,13 @@
         background-color: $primaryAccentColor;
         color: $fgColorAlt;
     }
+
+    input[type=submit]:disabled {
+        color: $disabledColor;
+        border-color: $warningColor;
+    }
+    input[type=submit]:disabled:hover {
+        color: $fgColorAlt;
+        background-color: $warningColor;
+    }
 }

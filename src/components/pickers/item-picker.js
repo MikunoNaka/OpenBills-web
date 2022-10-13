@@ -28,6 +28,13 @@ const ItemPicker = ({invoiceItems, addInvoiceItem}) => {
 
   useEffect(() => refreshItems, []);
 
+  // when an item is selected, set its quantity to item.MinQuantity
+  useEffect(() => {
+    if (item.Id != null) {
+      setItem(prevItem => ({...prevItem, Quantity: prevItem.MinQuantity}))
+    }
+  }, [item.Id])
+
   const refreshItems = () =>
     getAllItems(setItems, () => {});
 
@@ -38,17 +45,42 @@ const ItemPicker = ({invoiceItems, addInvoiceItem}) => {
 
   const handleInput = e => {
     const { name, value, type } = e.target;
+    const val = type === "number" ? parseFloat(value) : value
     setItem(prevItem => ({
       ...prevItem,
-      [name]: type === "number" ? parseFloat(value) : value
+      [name]: type === "number" ? (isNaN(val) ? prevItem[name] : val) : val
     }));
+  }
+
+  const validate = () => {
+    if (item.Id === null) {
+      return false;
+    }
+    if (!item.UnitPrice > 0) {
+      return false;
+    }
+    if (!item.Quantity > 0) {
+      return false;
+    }
+    if (item.Quantity < item.MinQuantity) {
+      return false;
+    }
+    if (item.MaxQuantity > 0 && item.Quantity > item.MaxQuantity) {
+      return false;
+    }
+    if (item.DiscountPercentage > 100 || item.GSTPercentage > 100) {
+      return false;
+    }
+    return true;
   }
 
   // add item to the invoice items list
   const addItem = (e) => {
     e.preventDefault();
-    addInvoiceItem(item);
-    setItem(new InvoiceItem());
+    if (validate()) {
+      addInvoiceItem(item);
+      setItem(new InvoiceItem());
+    }
   }
 
   // input elements are sorted on the basis of
@@ -74,6 +106,7 @@ const ItemPicker = ({invoiceItems, addInvoiceItem}) => {
               Quantity:
                 <input
                   type="number"
+                  step="0.01"
                   value={item.Quantity}
                   name="Quantity"
                   min={item.MinQuantity > 0 ? item.MinQuantity : 1}
@@ -84,6 +117,7 @@ const ItemPicker = ({invoiceItems, addInvoiceItem}) => {
               Price:
                 <input
                   type="number"
+                  step="0.01"
                   value={item.UnitPrice}
                   name="UnitPrice"
                   onChange={handleInput} />
@@ -92,6 +126,7 @@ const ItemPicker = ({invoiceItems, addInvoiceItem}) => {
               Discount %:
                 <input
                   type="number"
+                  step="0.01"
                   value={item.DiscountPercentage}
                   name="DiscountPercentage"
                   onChange={handleInput} />
@@ -116,14 +151,18 @@ const ItemPicker = ({invoiceItems, addInvoiceItem}) => {
               GST %:
                 <input
                   type="number"
+                  step="0.01"
                   value={item.GSTPercentage}
                   name="GSTPercentage"
                   onChange={handleInput} />
             </label>
-            <input type="submit" value="Add"/>
+            <input
+              type="submit"
+              value="Add"
+              disabled={!validate()} />
           </> :
           <Link to="/manage/items">
-            <input type="button" value="Add Items"/>
+            <input type="button" value="Add Items" />
           </Link>
         }
       </form>
