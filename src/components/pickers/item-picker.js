@@ -44,15 +44,18 @@ const ItemPicker = ({invoiceItems, addInvoiceItem}) => {
   }
 
   const handleInput = e => {
-    const { name, value, type } = e.target;
-    const val = type === "number" ? parseFloat(value) : value
+    const { name, value } = e.target;
     setItem(prevItem => ({
       ...prevItem,
-      [name]: type === "number" ? (isNaN(val) ? prevItem[name] : val) : val
+      [name]: `${value}`
     }));
   }
 
   const validate = () => {
+    if (!isNumeric(item.Quantity) || !isNumeric(item.DiscountPercentage)
+        || !isNumeric(item.GSTPercentage) || !isNumeric(item.UnitPrice)) {
+      return false;
+    }
     if (item.Id === null) {
       return false;
     }
@@ -68,7 +71,8 @@ const ItemPicker = ({invoiceItems, addInvoiceItem}) => {
     if (item.MaxQuantity > 0 && item.Quantity > item.MaxQuantity) {
       return false;
     }
-    if (item.DiscountPercentage > 100 || item.GSTPercentage > 100) {
+    if (item.DiscountPercentage > 100 || item.DiscountPercentage < 0
+        || item.GSTPercentage > 100 || item.GSTPercentage < 0) {
       return false;
     }
     return true;
@@ -82,6 +86,8 @@ const ItemPicker = ({invoiceItems, addInvoiceItem}) => {
       setItem(new InvoiceItem());
     }
   }
+
+  const isNumeric = (i) => !isNaN(i) && !isNaN(parseFloat(i));
 
   // input elements are sorted on the basis of
   // how likely they are going to be edited
@@ -106,10 +112,10 @@ const ItemPicker = ({invoiceItems, addInvoiceItem}) => {
               Quantity:
                 <input
                   type="number"
+                  className={((!isNumeric(item.Quantity) || (item.MaxQuantity > 0 && item.Quantity > item.MaxQuantity) || (item.Quantity < item.MinQuantity))) ? "warning" : ""}
                   step="0.01"
                   value={item.Quantity}
                   name="Quantity"
-                  min={item.MinQuantity > 0 ? item.MinQuantity : 1}
                   max={item.MaxQuantity > 0 ? item.MaxQuantity : null}
                   onChange={handleInput} />
             </label>
@@ -117,6 +123,7 @@ const ItemPicker = ({invoiceItems, addInvoiceItem}) => {
               Price:
                 <input
                   type="number"
+                  className={(!isNumeric(item.UnitPrice) || item.UnitPrice < 0) ? "warning" : ""}
                   step="0.01"
                   value={item.UnitPrice}
                   name="UnitPrice"
@@ -126,7 +133,10 @@ const ItemPicker = ({invoiceItems, addInvoiceItem}) => {
               Discount %:
                 <input
                   type="number"
-                  step="0.01"
+                  className={(!isNumeric(item.DiscountPercentage) || item.DiscountPercentage < 0 || item.DiscountPercentage > 100) ? "warning" : ""}
+                  max="100"
+                  min="0"
+                  step="0.1"
                   value={item.DiscountPercentage}
                   name="DiscountPercentage"
                   onChange={handleInput} />
@@ -152,6 +162,9 @@ const ItemPicker = ({invoiceItems, addInvoiceItem}) => {
                 <input
                   type="number"
                   step="0.01"
+                  className={(!isNumeric(item.GSTPercentage) || item.GSTPercentage < 0 || item.GSTPercentage > 100) ? "warning" : ""}
+                  max="100"
+                  min="0"
                   value={item.GSTPercentage}
                   name="GSTPercentage"
                   onChange={handleInput} />

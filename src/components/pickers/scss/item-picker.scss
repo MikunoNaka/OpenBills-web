@@ -92,4 +92,8 @@
         color: $fgColorAlt;
         background-color: $warningColor;
     }
+
+    input.warning {
+        border-color: $warningColor;
+    }
 }

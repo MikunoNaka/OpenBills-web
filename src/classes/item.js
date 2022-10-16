@@ -24,7 +24,7 @@ export const currency = value => c(value, {
   decimal: '.',
   seperator: ',',
   precision: 2,
-  symbol: '₹',
+  symbol: '₹ ',
 });
 
 export class Item {
@@ -74,8 +74,8 @@ export const editItem = (item, ok, fail) => {
     .catch(err => fail());
 }
 
-export const getDiscountValue = (item) => item.DiscountPercentage > 0
-  ? currency(item.UnitPrice).multiply(item.Quantity).divide(100) : currency(0.00)
+export const getDiscountValue = (item) =>
+  currency(item.UnitPrice).multiply(item.Quantity).divide(100).multiply(item.DiscountPercentage)
 
 export const getGSTValue = (item) => item.GSTPercentage > 0
   ? currency(item.UnitPrice).multiply(item.Quantity).subtract(getDiscountValue).divide(100).multiply(item.GSTPercentage) : currency(0.00)

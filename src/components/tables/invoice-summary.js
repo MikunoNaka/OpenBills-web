@@ -15,16 +15,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import './scss/summary.scss';
 import { currency } from '../../classes/item';
 
-const InvoiceSummary = ({sum}) => {
+const InvoiceSummary = ({sum, roundOff}) => {
   const totalRoundedOff = currency(sum.Amount !== undefined ? Math.round(sum.Amount.value) : 0.00);
-  const roundedOffDiff = sum.Amount !== undefined ? sum.Amount.subtract(totalRoundedOff) : currency(0.00);
+  const roundedOffDiff = sum.Amount !== undefined && roundOff ? sum.Amount.subtract(totalRoundedOff) : currency(0.00);
 
   return (
     <>
       <h1>Summary:</h1>
-      <table>
+      <table className={"summary-table"}>
         <tbody>
           {sum.UnitPrice !== undefined &&
             <tr>

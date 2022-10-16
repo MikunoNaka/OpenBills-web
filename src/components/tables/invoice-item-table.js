@@ -38,7 +38,7 @@ const ItemTable = ({items, setItems, isInterstate, sum}) => {
    */
   return (
     <>
-      <table>
+      <table className={"item-table"}>
         <thead>
           <tr>
             <th>S. No</th>

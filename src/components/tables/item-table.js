@@ -39,7 +39,7 @@ const ItemTable = (props) => {
   }
 
   return (
-    <table>
+    <table className={"item-table"}>
       <thead>
         <tr>
           <th>S. No</th>

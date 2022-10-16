@@ -17,47 +17,9 @@
 
 @import "colors";
 
-table.item-table {
-    width: 90%;
-    margin: auto;
-
-    th {
-        box-sizing: border-box;
-        background-color: $thColor;
-        font-weight: normal;
-        text-align: left;
-        padding-left: 0.3rem;
-    }
-
+table.summary-table {
+    min-width: 25rem;
     tr:hover {
         background-color: rgba($thColor, 0.4);
-    }
-
-    td {
-        border-bottom: 1px solid white;
-    }
-
-    td.empty {
-        border-bottom: 1px solid gray;
-    }
-
-    td.buttons {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        border: none;
-        height: 1.4rem;
-    }
-
-    .multiline {
-      white-space: pre-line;
-    }
-}
-
-table .total {
-    font-size: 1.2em;
-    color: $primaryAccentColor;
-    td:not(.empty) {
-        border-color: $secondaryAccentColor;
     }
 }
