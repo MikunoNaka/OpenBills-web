@@ -39,6 +39,7 @@ export class Item {
     this.GSTPercentage = 0.00;
     this.MinQuantity = 0.00;
     this.MaxQuantity = 0.00;
+    this.HasDecimalQuantity = false;
   }
 }
 

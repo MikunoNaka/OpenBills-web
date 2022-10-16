@@ -27,4 +27,14 @@
     input[type=number] {
         -moz-appearance: textfield;
     }
+
+    .checkbox-label {
+        border: none;
+        max-width: none;
+        justify-content: left;
+        input {
+            display: inline;
+            width: 1.4rem;
+        }
+    }
 }

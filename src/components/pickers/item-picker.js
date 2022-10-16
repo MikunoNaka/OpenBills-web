@@ -19,8 +19,6 @@ import './scss/item-picker.scss';
 
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-//import { faPhone, faEnvelope, faGlobe } from '@fortawesome/free-solid-svg-icons'
 
 const ItemPicker = ({invoiceItems, addInvoiceItem}) => {
   const [items, setItems] = useState([new Item()]);
@@ -113,9 +111,10 @@ const ItemPicker = ({invoiceItems, addInvoiceItem}) => {
                 <input
                   type="number"
                   className={((!isNumeric(item.Quantity) || (item.MaxQuantity > 0 && item.Quantity > item.MaxQuantity) || (item.Quantity < item.MinQuantity))) ? "warning" : ""}
-                  step="0.01"
+                  step={item.HasDecimalQuantity ? "0.01" : "1"}
                   value={item.Quantity}
                   name="Quantity"
+                  min="0"
                   max={item.MaxQuantity > 0 ? item.MaxQuantity : null}
                   onChange={handleInput} />
             </label>
@@ -169,10 +168,12 @@ const ItemPicker = ({invoiceItems, addInvoiceItem}) => {
                   name="GSTPercentage"
                   onChange={handleInput} />
             </label>
-            <input
-              type="submit"
-              value="Add"
-              disabled={!validate()} />
+            <div className={"buttons"}>
+              <input
+                type="submit"
+                value="Add"
+                disabled={!validate()} />
+            </div>
           </> :
           <Link to="/manage/items">
             <input type="button" value="Add Items" />

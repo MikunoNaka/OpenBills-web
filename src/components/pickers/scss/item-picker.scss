@@ -56,6 +56,10 @@
         input { width: 7rem; }
     }
 
+    input {
+        transition: border 0.2s;
+    }
+
     input[type=number] {
         -moz-appearance: textfield;
         width: 7rem;
@@ -76,7 +80,7 @@
         border: 1px solid $primaryAccentColor;
         color: $fgColor;
         border-radius: 4px;
-        transition: background-color 0.4s, color 0.4s;
+        transition: background-color 0.4s, color 0.4s, border 0.4s;
     }
 
     input[type=button]:hover, input[type=submit]:hover {

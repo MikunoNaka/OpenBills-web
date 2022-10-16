@@ -32,6 +32,7 @@ const ItemEditor = (props) => {
   const [maxQty, setMaxQty] = useState(props.item.MaxQuantity);
   const [brand, setBrand] = useState(props.item.Brand);
   const [savedBrands, setSavedBrands] = useState([]);
+  const [hasDecimalQty, setHasDecimalQty] = useState(props.item.HasDecimalQuantity);
 
   // get saved brands from API
   // needed by the brands dropdown menu
@@ -66,6 +67,7 @@ const ItemEditor = (props) => {
     item.MinQuantity = minQuantity;
     item.MaxQuantity = maxQuantity;
     item.Brand = brand;
+    item.HasDecimalQuantity = hasDecimalQty;
 
     // TODO: Save is for new items. implement modification too
     props.editing
@@ -188,6 +190,14 @@ const ItemEditor = (props) => {
           </select>
         </label>
         }
+
+        <label className={"checkbox-label"}>
+          <input
+            type="checkbox"
+            checked={hasDecimalQty}
+            onChange={() => setHasDecimalQty(i => !i)} />
+          Quantity may contain decimal places
+        </label>
 
         <span className={"buttons"}>
           <input type="button" value="Clear" onClick={clearAll}/>
