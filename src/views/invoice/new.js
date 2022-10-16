@@ -24,6 +24,7 @@ import InvoiceSummary from '../../components/tables/invoice-summary';
 import HeadersEditor from '../../components/editors/invoice-headers-editor';
 
 import { InvoiceClient } from '../../classes/client';
+import { Transport, Transporter } from '../../classes/invoice';
 import { calcSum, currency } from '../../classes/item';
 
 import { useState, useEffect } from 'react';
@@ -42,6 +43,9 @@ const NewInvoicePage = () => {
     Amount: currency(0),
     Quantity: currency(0)
   });
+
+  const [transporter, setTransporter] = useState(new Transporter());
+  const [transport, setTransport] = useState(new Transport());
 
   useEffect(() => setShippingAddressId(-1), [client]);
 
@@ -63,11 +67,9 @@ const NewInvoicePage = () => {
         isInterstate={isInterstate}
         sum={sum} />
       <div className={"two-col"}>
-        <div>
-          <HeadersEditor
-            roundOff={roundOffTotal}
-            setRoundOff={setRoundOffTotal} />
-        </div>
+        <HeadersEditor
+          roundOff={roundOffTotal}
+          setRoundOff={setRoundOffTotal} />
         <div>
           <InvoiceSummary
             sum={sum}

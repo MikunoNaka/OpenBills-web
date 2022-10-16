@@ -15,25 +15,87 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import './scss/item-editor.scss';
+import './scss/invoice-headers.scss';
 
 import { useState, useEffect } from 'react';
 
-const InvoiceHeadersEditor = ({roundOff, setRoundOff}) => {
+const InvoiceHeadersEditor = ({roundOff, setRoundOff, transport, setTransport, transporter, setTransporter}) => {
+  const handleTransportInput = e => {
+    const { name, value } = e.target;
+    setTransport(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  }
+
+  const handleTransporterInput = e => {
+    const { name, value } = e.target;
+    setTransporter(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  }
 
   return (
-    <>
+    <div className={"invoice-headers-editor"}>
       <h1>Invoice Options:</h1>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <label>
+      <div>
+        <label className={"checkbox-label"}>
           <input
             type="checkbox"
             onChange={() => setRoundOff(prev => !prev)}
             checked={roundOff}/>
           Round off the Total
         </label>
-      </form>
-    </>
+
+        <label>
+          Apply Discount On All Items:
+          <input
+            className={"small"}
+            type="number"
+            min="0"
+            max="100"
+            step="0.1" />
+        </label>
+
+        <p><strong>Transport Details</strong></p>
+
+        <label>
+          Vehicle Number:
+          <input
+            type="text"/>
+        </label>
+
+        <label>
+          Transport Method:
+          <input
+            type="text"/>
+        </label>
+
+        <label>
+          Transporter Name:
+          <input
+            type="text"/>
+        </label>
+
+        <label>
+          Transporter GSTIN:
+          <input
+            type="text"/>
+        </label>
+
+        <label>
+          Transporter ID:
+          <input
+            type="text"/>
+        </label>
+
+        <label>
+          Note:
+          <textarea />
+        </label>
+      </div>
+    </div>
   )
 }
 
