@@ -16,7 +16,16 @@
  */
 
 import axios from "axios";
-import { Brand } from "./brand"
+import c from "currency.js";
+import { Brand } from "./brand";
+
+// TODO: load from config or something
+export const currency = value => c(value, {
+  decimal: '.',
+  seperator: ',',
+  precision: 2,
+  symbol: '₹',
+});
 
 export class Item {
   constructor() {
@@ -62,22 +71,22 @@ export const getAllItems = (ok, fail) => {
 export const editItem = (item, ok, fail) => {
   axios.put(`/item/${item.Id}`, item)
     .then(res => ok())
-    .catch(err => fail())
+    .catch(err => fail());
 }
 
 export const getDiscountValue = (item) => item.DiscountPercentage > 0
-  ? ((item.UnitPrice * item.Quantity)/100) * item.DiscountPercentage : 0.00;
+  ? currency(item.UnitPrice).multiply(item.Quantity).divide(100) : currency(0.00)
 
 export const getGSTValue = (item) => item.GSTPercentage > 0
-  ? (((item.UnitPrice * item.Quantity) - getDiscountValue(item))/100) * item.GSTPercentage : 0.00;
+  ? currency(item.UnitPrice).multiply(item.Quantity).subtract(getDiscountValue).divide(100).multiply(item.GSTPercentage) : currency(0.00)
 
 export const getAmount = (item) =>
-  (item.UnitPrice * item.Quantity) - getDiscountValue(item) + getGSTValue(item)
+  currency(item.UnitPrice).multiply(item.Quantity).add(getDiscountValue(item)).add(getGSTValue(item))
 
 export const calcSum = (items) => items.reduce((prev, current, id, arr) => ({
-  GST: prev.GST + getGSTValue(current),
-  Discount: prev.Discount + getDiscountValue(current),
-  UnitPrice: prev.UnitPrice + current.UnitPrice,
-  Amount: prev.Amount + getAmount(current),
-  Quantity: prev.Quantity + current.Quantity
-}), {GST: 0, Discount: 0, UnitPrice: 0, Amount: 0, Quantity: 0});
+  GST: prev.GST.add(getGSTValue(current)),
+  Discount: prev.Discount.add(getDiscountValue(current)),
+  UnitPrice: prev.UnitPrice.add(currency(current.UnitPrice).multiply(current.Quantity)),
+  Amount: prev.Amount.add(getAmount(current)),
+  Quantity: prev.Quantity.add(current.Quantity) // stored as a currency because it can be float
+}), {GST: currency(0), Discount: currency(0), UnitPrice: currency(0), Amount: currency(0), Quantity: currency(0)});

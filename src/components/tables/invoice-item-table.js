@@ -16,7 +16,7 @@
  */
 
 import './scss/table.scss';
-import { getDiscountValue, getGSTValue, getAmount } from './../../classes/item';
+import { getDiscountValue, getGSTValue, getAmount, currency } from './../../classes/item';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 
@@ -70,17 +70,18 @@ const ItemTable = ({items, setItems, isInterstate, sum}) => {
               <td className={i.Brand.Name === "" ? "empty" : ""}>{i.Brand.Name}</td>
               <td>{i.Quantity}</td>
               <td className={i.UnitOfMeasure === "" ? "empty" : ""}>{i.UnitOfMeasure}</td>
-              <td className={i.UnitPrice > 0 ? "" : "empty"}>{i.UnitPrice}</td>
-              <td className={i.DiscountPercentage > 0 ? "" : "empty"}>{getDiscountValue(i)} ({i.DiscountPercentage}%)</td>
+              <td className={i.UnitPrice > 0 ? "" : "empty"}>{currency(i.UnitPrice).format()}</td>
+              <td className={i.DiscountPercentage > 0 ? "" : "empty"}>{getDiscountValue(i).format()} ({i.DiscountPercentage}%)</td>
               {isInterstate
-                ? <td className={i.GSTPercentage > 0 ? "" : "empty"}>{getGSTValue(i)} ({i.GSTPercentage}%)</td>
+                ? <td className={i.GSTPercentage > 0 ? "" : "empty"}>{getGSTValue(i).format()}</td>
                 : <>
-                  <td className={i.GSTPercentage > 0 ? "" : "empty"}>{getGSTValue(i) / 2} ({i.GSTPercentage / 2}%)</td>
-                  <td className={i.GSTPercentage > 0 ? "" : "empty"}>{getGSTValue(i) / 2} ({i.GSTPercentage / 2}%)</td>
+                      {getGSTValue(i).distribute(2).map((j, id) =>
+                        <td key={`g-${id}`} className={i.GSTPercentage > 0 ? "" : "empty"}>{j.format()} ({currency(i.GSTPercentage).divide(2).value}%)</td>
+                      )}
                 </>
               }
               <td className={i.HSN === "" ? "empty" : ""}>{i.HSN}</td>
-              <td>{getAmount(i)}</td>
+              <td>{getAmount(i).format()}</td>
               <td className={"buttons"}>
                 <FontAwesomeIcon icon={faPencil} onClick={() => handleEdit(i)}/>
                 <FontAwesomeIcon icon={faTrashCan} onClick={() => handleDelete(i)}/>
@@ -92,19 +93,20 @@ const ItemTable = ({items, setItems, isInterstate, sum}) => {
             <td className={"empty"}></td>
             <td className={"empty"}></td>
             <td className={"empty"}></td>
-            <td className={sum.Quantity > 0 ? "" : "empty"}>{sum.Quantity}</td>
+            <td className={sum.Quantity.value > 0 ? "" : "empty"}>{sum.Quantity.value}</td>
             <td className={"empty"}></td>
-            <td className={sum.UnitPrice > 0 ? "" : "empty"}>{sum.UnitPrice}</td>
-            <td className={sum.Discount > 0 ? "" : "empty"}>{sum.Discount}</td>
+            <td className={sum.UnitPrice.value > 0 ? "" : "empty"}>{sum.UnitPrice.format()}</td>
+            <td className={sum.Discount.value > 0 ? "" : "empty"}>{sum.Discount.format()}</td>
             {isInterstate
-              ? <td className={sum.GST > 0 ? "" : "empty"}>{sum.GST || 0}</td>
+              ? <td className={sum.GST.value > 0 ? "" : "empty"}>{sum.GST.format()}</td>
               : <>
-                <td className={sum.GST > 0 ? "" : "empty"}>{sum.GST / 2 || 0}</td>
-                <td className={sum.GST > 0 ? "" : "empty"}>{sum.GST / 2 || 0}</td>
+                    {sum.GST.distribute(2).map((i, id) =>
+                      <td key={`g-${id}`} className={i.value > 0 ? "" : "empty"}>{i.format()}</td>
+                    )}
               </>
             }
             <td className={"empty"}></td>
-            <td className={sum.Amount > 0 ? "" : "empty"}>{sum.Amount}</td>
+            <td className={sum.Amount.value > 0 ? "" : "empty"}>{sum.Amount.format()}</td>
             <td className={"buttons"}>
             </td>
           </tr>

@@ -21,7 +21,7 @@ import ItemTable from '../../components/tables/invoice-item-table';
 import InvoiceSummary from '../../components/tables/invoice-summary';
 
 import { InvoiceClient } from '../../classes/client';
-import { calcSum } from '../../classes/item';
+import { calcSum, currency } from '../../classes/item';
 
 import { useState, useEffect } from 'react';
 
@@ -31,7 +31,13 @@ const NewInvoicePage = () => {
   const [items, setItems] = useState([]);
   //const [isInterstate, setIsInterstate] = useState(false);
   const isInterstate = false; // temporary
-  const [sum, setSum] = useState({});
+  const [sum, setSum] = useState({
+    GST: currency(0),
+    Discount: currency(0),
+    UnitPrice: currency(0),
+    Amount: currency(0),
+    Quantity: currency(0)
+  });
 
   useEffect(() => setShippingAddressId(-1), [client]);
 

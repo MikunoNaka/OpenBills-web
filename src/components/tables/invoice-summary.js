@@ -15,47 +15,47 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import './scss/table.scss';
+import { currency } from '../../classes/item';
 
 const InvoiceSummary = ({sum}) => {
-  const totalRoundedOff = Math.round(sum.Amount);
-  const roundedOffDiff = sum.Amount - totalRoundedOff;
-
-  const formatter = new Intl.NumberFormat("en-US", {
-    maximumSignificantDigits: 2,
-  })
+  const totalRoundedOff = currency(sum.Amount !== undefined ? Math.round(sum.Amount.value) : 0.00);
+  const roundedOffDiff = sum.Amount !== undefined ? sum.Amount.subtract(totalRoundedOff) : currency(0.00);
 
   return (
     <>
       <h1>Summary:</h1>
       <table>
         <tbody>
-          <tr>
-            <td>Base Total</td>
-            <td>{formatter.format(sum.UnitPrice)}</td>
-          </tr>
-          {sum.Discount > 0 &&
+          {sum.UnitPrice !== undefined &&
+            <tr>
+              <td>Base Total</td>
+              <td>{sum.UnitPrice.format()}</td>
+            </tr>
+          }
+          {sum.Discount !== undefined && sum.Discount.value > 0 &&
             <tr>
               <td>Total After Discount</td>
-              <td>{formatter.format(sum.UnitPrice - sum.Discount)} (-{formatter.format(sum.Discount)})</td>
+              <td>{sum.UnitPrice.subtract(sum.Discount).format()} (-{sum.Discount.format()})</td>
             </tr>
           }
-          {sum.GST > 0 &&
+          {sum.GST !== undefined && sum.GST.value > 0 &&
             <tr>
               <td>Total After Tax</td>
-              <td>{formatter.format(sum.UnitPrice - (sum.Discount > 0 ? sum.Discount : 0) + sum.GST)} (+{formatter.format(sum.GST)})</td>
+              <td>{sum.UnitPrice.subtract(sum.Discount.value > 0 ? sum.Discount : currency(0)).add(sum.GST).format()} (+{sum.GST.format()})</td>
             </tr>
           }
-          {(isNaN(roundedOffDiff) || roundedOffDiff !== 0) &&
+          {roundedOffDiff.intValue !== 0 &&
             <tr>
               <td>Rounded Off</td>
-              <td>{`${roundedOffDiff > 0 ? `(-) ${formatter.format(roundedOffDiff)}` : `(+) ${formatter.format(roundedOffDiff * -1)}`}`}</td>
+              <td>{`${roundedOffDiff.value > 0 ? `(-) ${roundedOffDiff.format()}` : `(+) ${roundedOffDiff.multiply(-1).format()}`}`}</td>
             </tr>
           }
-          <tr>
-            <td>Grand Total</td>
-            <td>{formatter.format(sum.Amount - (isNaN(roundedOffDiff) ? 0 : roundedOffDiff))}</td>
-          </tr>
+          {sum.Amount !== undefined &&
+            <tr>
+              <td>Grand Total</td>
+              <td>{sum.Amount.subtract(roundedOffDiff).format()}</td>
+            </tr>
+          }
         </tbody>
       </table>
     </>
