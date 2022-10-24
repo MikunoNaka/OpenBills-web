@@ -79,10 +79,10 @@ export const getDiscountValue = (item) =>
   currency(item.UnitPrice).multiply(item.Quantity).divide(100).multiply(item.DiscountPercentage)
 
 export const getGSTValue = (item) => item.GSTPercentage > 0
-  ? currency(item.UnitPrice).multiply(item.Quantity).subtract(getDiscountValue).divide(100).multiply(item.GSTPercentage) : currency(0.00)
+  ? currency(item.UnitPrice).multiply(item.Quantity).subtract(getDiscountValue(item)).divide(100).multiply(item.GSTPercentage) : currency(0.00)
 
 export const getAmount = (item) =>
-  currency(item.UnitPrice).multiply(item.Quantity).add(getDiscountValue(item)).add(getGSTValue(item))
+  currency(item.UnitPrice).multiply(item.Quantity).subtract(getDiscountValue(item)).add(getGSTValue(item))
 
 export const calcSum = (items) => items.reduce((prev, current, id, arr) => ({
   GST: prev.GST.add(getGSTValue(current)),
