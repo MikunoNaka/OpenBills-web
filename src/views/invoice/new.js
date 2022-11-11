@@ -23,8 +23,8 @@ import ItemTable from '../../components/tables/invoice-item-table';
 import InvoiceSummary from '../../components/tables/invoice-summary';
 import HeadersEditor from '../../components/editors/invoice-headers-editor';
 
-import { InvoiceClient } from '../../classes/client';
-import { Transport, Transporter } from '../../classes/invoice';
+import { InvoiceClient, Client } from '../../classes/client';
+import { Transport, Invoice, saveInvoice } from '../../classes/invoice';
 import { calcSum, currency } from '../../classes/item';
 
 import { useState, useEffect } from 'react';
@@ -35,6 +35,7 @@ const NewInvoicePage = () => {
   const [items, setItems] = useState([]);
   const [roundOffTotal, setRoundOffTotal] = useState(true); //TODO: load from config
   //const [isInterstate, setIsInterstate] = useState(false);
+  const [transport, setTransport] = useState(new Transport());
   const isInterstate = false; // temporary
   const [sum, setSum] = useState({
     GST: currency(0),
@@ -44,8 +45,38 @@ const NewInvoicePage = () => {
     Quantity: currency(0)
   });
 
-  const [transporter, setTransporter] = useState(new Transporter());
-  const [transport, setTransport] = useState(new Transport());
+  const submitInvoice = () => {
+    const invoice = new Invoice();
+    invoice.InvoiceNumber = 69; // TODO: set accordingly
+    invoice.CreatedAt = new Date();
+    invoice.TotalAmount = sum.Amount;
+
+    const recipient = new Client();
+    recipient.Name = client.Name;
+    recipient.Contact = client.Contact;
+    recipient.GSTIN = client.GSTIN;
+    recipient.BillingAddress = client.BillingAddress;
+    invoice.Recipient = recipient;
+
+    invoice.Paid = false; // TODO: set accordingly
+    invoice.TransactionId = "" // TODO: set accordingly
+    invoice.DiscountPercentage = 0;
+    invoice.BillingAddress = client.BillingAddress;
+    invoice.ShippingAddress = client.ShipTo;
+    invoice.Items = items;
+    invoice.Note = ""; // TODO: set accordingly
+    invoice.Draft = false; // TODO: set accordingly
+
+    saveInvoice(invoice, handleSuccess, handleFail)
+  }
+
+  const handleSuccess = () => {
+    alert("yay");
+  }
+
+  const handleFail = () => {
+    alert("fail");
+  }
 
   useEffect(() => setShippingAddressId(-1), [client]);
 
@@ -69,10 +100,13 @@ const NewInvoicePage = () => {
       <div className={"two-col"}>
         <HeadersEditor
           roundOff={roundOffTotal}
-          setRoundOff={setRoundOffTotal} />
+          setRoundOff={setRoundOffTotal}
+          transport={transport}
+          setTransport={setTransport} />
         <div>
           <InvoiceSummary
             sum={sum}
+            submit={submitInvoice}
             roundOff={roundOffTotal} />
         </div>
       </div>

@@ -24,6 +24,7 @@ import ManagementPage from './views/manage/manage';
 import ManageItemsPage from './views/manage/items';
 import ManageClientsPage from './views/manage/clients';
 import ManageBrandsPage from './views/manage/brands';
+import ManageInvoicesPage from './views/manage/invoices';
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
           <Route exact path="/manage/items" element={<ManageItemsPage/>}/>
           <Route exact path="/manage/clients" element={<ManageClientsPage/>}/>
           <Route exact path="/manage/brands" element={<ManageBrandsPage/>}/>
+          <Route exact path="/manage/invoices" element={<ManageInvoicesPage/>}/>
           <Route exact path="/manage" element={<ManagementPage/>}/>
           <Route path="*" element={<h1>404</h1>}/>
         </Routes>

@@ -54,8 +54,8 @@ export class InvoiceClient extends Client {
   }
 }
 
-export const saveClient = (item, ok, fail) => {
-  axios.post("/client/new", item)
+export const saveClient = (client, ok, fail) => {
+  axios.post("/client/new", client)
     .then(res => ok(res))
     .catch(err => fail(err))
 }

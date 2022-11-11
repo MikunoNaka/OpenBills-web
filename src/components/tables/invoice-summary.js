@@ -18,7 +18,7 @@
 import './scss/summary.scss';
 import { currency } from '../../classes/item';
 
-const InvoiceSummary = ({sum, roundOff}) => {
+const InvoiceSummary = ({sum, roundOff, submit}) => {
   const totalRoundedOff = currency(sum.Amount !== undefined ? Math.round(sum.Amount.value) : 0.00);
   const roundedOffDiff = sum.Amount !== undefined && roundOff ? sum.Amount.subtract(totalRoundedOff) : currency(0.00);
 
@@ -59,6 +59,7 @@ const InvoiceSummary = ({sum, roundOff}) => {
           }
         </tbody>
       </table>
+      <button onClick={submit}>Generate Invoice</button>
     </>
   );
 }

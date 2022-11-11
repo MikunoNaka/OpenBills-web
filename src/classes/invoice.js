@@ -15,7 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-//import axios from "axios";
+import { InvoiceItem } from "./item";
+import { Client, Address } from "./client";
+
+import axios from "axios";
 
 export class Transporter {
   constructor() {
@@ -34,4 +37,48 @@ export class Transport {
     this.Note = "";
     this.TransportMethod = "";
   }
+}
+
+export class Invoice {
+  constructor() {
+    this.Id = null;
+    this.InvoiceNumber = 0;
+    this.TotalAmount = 0.00;
+    this.CreatedAt = new Date();
+    this.LastUpdated = null;
+    this.Recipient = new Client();
+    this.Paid = false;
+    this.TransactionId = "";
+    this.Transport = new Transport();
+    this.DiscountPercentage = 0;
+    this.BillingAddress = new Address();
+    this.ShippingAddress = new Address();
+    this.Items = [];
+    this.Note = "";
+    this.Draft = true;
+  }
+}
+
+export const getAllInvoices = (ok, fail) => {
+  axios.get("/invoice/all")
+    .then(res => ok(res.data))
+    .catch(err => fail())
+}
+
+export const saveInvoice = (invoice, ok, fail) => {
+  axios.post("/invoice/new", invoice)
+    .then(res => ok(res))
+    .catch(err => fail(err))
+}
+
+export const deleteInvoice = (id, ok, fail) => {
+  axios.delete(`/invoice/${id}`)
+    .then(res => ok())
+    .catch((err) => fail())
+}
+
+export const editInvoice = (item, ok, fail) => {
+  axios.put(`/invoice/${item.Id}`, item)
+    .then(res => ok())
+    .catch(err => fail());
 }

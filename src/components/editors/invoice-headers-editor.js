@@ -19,21 +19,25 @@ import './scss/invoice-headers.scss';
 
 import { useState, useEffect } from 'react';
 
-const InvoiceHeadersEditor = ({roundOff, setRoundOff, transport, setTransport, transporter, setTransporter}) => {
-  const handleTransportInput = e => {
+const InvoiceHeadersEditor = ({roundOff, setRoundOff, transport, setTransport}) => {
+  const handleInput = e => {
     const { name, value } = e.target;
-    setTransport(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  }
 
-  const handleTransporterInput = e => {
-    const { name, value } = e.target;
-    setTransporter(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    if (name.includes("Transporter.")) {
+      const n = name.split(".")[1];
+      const transporter = transport.Transporter;
+      transporter[n] = value;
+
+      setTransport(prev => ({
+        ...prev,
+        Transporter: transporter,
+      }));
+    } else {
+      setTransport(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   }
 
   return (
@@ -63,36 +67,54 @@ const InvoiceHeadersEditor = ({roundOff, setRoundOff, transport, setTransport, t
         <label>
           Vehicle Number:
           <input
+            name="VehicleNum"
+            value={transport.VehicleNum}
+            onChange={handleInput}
             type="text"/>
         </label>
 
         <label>
           Transport Method:
           <input
+            name="TransportMethod"
+            value={transport.TransportMethod}
+            onChange={handleInput}
             type="text"/>
         </label>
 
         <label>
           Transporter Name:
           <input
+            name="Transporter.Name"
+            value={transport.Transporter.Name}
+            onChange={handleInput}
             type="text"/>
         </label>
 
         <label>
           Transporter GSTIN:
           <input
+            name="Transporter.GSTIN"
+            value={transport.Transporter.GSTIN}
+            onChange={handleInput}
             type="text"/>
         </label>
 
         <label>
           Transporter ID:
           <input
+            name="Transporter.TransporterId"
+            value={transport.Transporter.TransporterId}
+            onChange={handleInput}
             type="text"/>
         </label>
 
         <label>
-          Note:
-          <textarea />
+          Delivery Note:
+          <textarea
+            name="Note"
+            value={transport.Note}
+            onChange={handleInput} />
         </label>
       </div>
     </div>
