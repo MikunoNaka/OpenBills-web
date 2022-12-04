@@ -15,7 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { InvoiceItem } from "./item";
 import { Client, Address } from "./client";
 
 import axios from "axios";

@@ -1,0 +1,67 @@
+@import "../../../colors";
+@import "../../../components/editors/scss/editor";
+
+.login-page-wrapper, .register-page-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 7rem);
+}
+
+.login-page, .register-page {
+    @include label;
+    @include button;
+    width: 95%;
+    max-width: 25rem;
+    margin-top: -6rem;
+    h1, p {
+        margin: 0.5rem 0;
+        text-align: center;
+    }
+
+    label {
+        margin: auto;
+        width: 98%;
+        max-width: none;
+    }
+
+    hr {
+        margin-top: 1rem;
+    }
+
+    .input-with-icon {
+        width: 100%;
+        max-width: 15rem;
+        input {
+            margin-right: 0.5rem;
+            width: 87%;
+        }
+        .icon {
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .icon.active {color: $primaryAccentColor;}
+    }
+
+    input.wider {
+        max-width: 15rem;
+    }
+
+    .buttons {
+        margin: 1rem 0;
+        display: flex;
+        justify-content: center;
+        button {width: 10rem;}
+        button, input[type=submit] {
+            margin: 0 1rem;
+        }
+    }
+
+    input[type=submit]:disabled {
+        border-color: $warningColor;
+    }
+    input[type=submit]:disabled:hover {
+        background-color: $warningColor;
+    }
+}

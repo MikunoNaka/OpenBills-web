@@ -60,3 +60,29 @@ $selectionColor: rgba($primaryAccentColor, 0.9)
   color: $darkgray;
   background: $selectionColor;
 }
+
+.dropdown-icon {
+    transition: transform 0.4s;
+    &.open {
+        transform: rotate(-180deg);
+    }
+}
+
+.dropdown-div {
+    animation: dropdown ease 0.15s;
+}
+
+@keyframes dropdown {
+    0% {
+        opacity: 0;
+        transform: translateY(-100%)
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 100;
+        transform: translateY(0px)
+    }
+}
+

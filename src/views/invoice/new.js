@@ -36,6 +36,8 @@ const NewInvoicePage = () => {
   const [roundOffTotal, setRoundOffTotal] = useState(true); //TODO: load from config
   //const [isInterstate, setIsInterstate] = useState(false);
   const [transport, setTransport] = useState(new Transport());
+  const [invoiceNumber, setInvoiceNumber] = useState("0"); // TODO: auto increment
+  const [invoiceDate, setInvoiceDate] = useState(new Date());
   const isInterstate = false; // temporary
   const [sum, setSum] = useState({
     GST: currency(0),
@@ -47,8 +49,8 @@ const NewInvoicePage = () => {
 
   const submitInvoice = () => {
     const invoice = new Invoice();
-    invoice.InvoiceNumber = 69; // TODO: set accordingly
-    invoice.CreatedAt = new Date();
+    invoice.InvoiceNumber = invoiceNumber;
+    invoice.CreatedAt = invoiceDate;
     invoice.TotalAmount = sum.Amount;
 
     const recipient = new Client();
@@ -67,7 +69,7 @@ const NewInvoicePage = () => {
     invoice.Note = ""; // TODO: set accordingly
     invoice.Draft = false; // TODO: set accordingly
 
-    saveInvoice(invoice, handleSuccess, handleFail)
+    saveInvoice(invoice, handleSuccess, handleFail);
   }
 
   const handleSuccess = () => {
@@ -102,7 +104,11 @@ const NewInvoicePage = () => {
           roundOff={roundOffTotal}
           setRoundOff={setRoundOffTotal}
           transport={transport}
-          setTransport={setTransport} />
+          setTransport={setTransport}
+          invoiceNumber={invoiceNumber}
+          setInvoiceNumber={setInvoiceNumber}
+          date={invoiceDate}
+          setDate={setInvoiceDate} />
         <div>
           <InvoiceSummary
             sum={sum}

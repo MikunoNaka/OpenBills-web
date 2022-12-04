@@ -42,6 +42,12 @@
         }
     }
 
+    .wrapper {
+        display: flex;
+        justify-content: space-between;
+        width: 44rem;
+    }
+
     // hide up/down arrows from number input
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {

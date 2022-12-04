@@ -17,6 +17,22 @@
 
 @import "colors";
 
+@mixin button {
+    button, input[type=submit] {
+        padding: 0.2rem 0;
+        width: 4rem;
+        background-color: $inputBackgroundColor;
+        border: 1px solid $primaryAccentColor;
+        color: $fgColor;
+        border-radius: 4px;
+        transition: background-color 0.4s, color 0.4s;
+    }
+    button:hover, input[type=submit]:hover {
+        background-color: $primaryAccentColor;
+        color: $fgColorAlt;
+    }
+}
+
 @mixin label {
     label {
         display: flex;

@@ -18,8 +18,14 @@
 import './scss/invoice-headers.scss';
 
 import { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
-const InvoiceHeadersEditor = ({roundOff, setRoundOff, transport, setTransport}) => {
+const InvoiceHeadersEditor = ({roundOff, setRoundOff, transport, setTransport, invoiceNumber, setInvoiceNumber, date, setDate}) => {
+  // show transport details menu
+  const [showTPMenu, setShowTPMenu] = useState(false);
+  const [showAdditionalMenu, setShowAdditionalMenu] = useState(false);
+
   const handleInput = e => {
     const { name, value } = e.target;
 
@@ -43,79 +49,123 @@ const InvoiceHeadersEditor = ({roundOff, setRoundOff, transport, setTransport}) 
   return (
     <div className={"invoice-headers-editor"}>
       <h1>Invoice Options:</h1>
-      <div>
-        <label className={"checkbox-label"}>
-          <input
-            type="checkbox"
-            onChange={() => setRoundOff(prev => !prev)}
-            checked={roundOff}/>
-          Round off the Total
-        </label>
+      <div className={"wrapper"}>
+        <div>
+          <label className={"checkbox-label"}>
+            <input
+              type="checkbox"
+              onChange={() => setRoundOff(prev => !prev)}
+              checked={roundOff}/>
+            Round off the Total
+          </label>
 
-        <label>
-          Apply Discount On All Items:
-          <input
-            className={"small"}
-            type="number"
-            min="0"
-            max="100"
-            step="0.1" />
-        </label>
+          <label>
+            Apply Discount On All Items:
+            <input
+              className={"small"}
+              type="number"
+              min="0"
+              max="100"
+              step="0.1" />
+          </label>
 
-        <p><strong>Transport Details</strong></p>
+          <p onClick={() => setShowTPMenu(i => !i)}>
+            <strong>
+              Transport Details <FontAwesomeIcon
+                icon={faChevronDown}
+                className={`dropdown-icon ${showTPMenu ? "open" : "closed"}`} />
+            </strong>
+          </p>
+          <hr/>
+          {showTPMenu &&
+            <div className={"dropdown-div"}>
+              <label>
+                Vehicle Number:
+                <input
+                  name="VehicleNum"
+                  value={transport.VehicleNum}
+                  onChange={handleInput}
+                  type="text"/>
+              </label>
 
-        <label>
-          Vehicle Number:
-          <input
-            name="VehicleNum"
-            value={transport.VehicleNum}
-            onChange={handleInput}
-            type="text"/>
-        </label>
+              <label>
+                Transport Method:
+                <input
+                  name="TransportMethod"
+                  value={transport.TransportMethod}
+                  onChange={handleInput}
+                  type="text"/>
+              </label>
 
-        <label>
-          Transport Method:
-          <input
-            name="TransportMethod"
-            value={transport.TransportMethod}
-            onChange={handleInput}
-            type="text"/>
-        </label>
+              <label>
+                Transporter Name:
+                <input
+                  name="Transporter.Name"
+                  value={transport.Transporter.Name}
+                  onChange={handleInput}
+                  type="text"/>
+              </label>
 
-        <label>
-          Transporter Name:
-          <input
-            name="Transporter.Name"
-            value={transport.Transporter.Name}
-            onChange={handleInput}
-            type="text"/>
-        </label>
+              <label>
+                Transporter GSTIN:
+                <input
+                  name="Transporter.GSTIN"
+                  value={transport.Transporter.GSTIN}
+                  onChange={handleInput}
+                  type="text"/>
+              </label>
 
-        <label>
-          Transporter GSTIN:
-          <input
-            name="Transporter.GSTIN"
-            value={transport.Transporter.GSTIN}
-            onChange={handleInput}
-            type="text"/>
-        </label>
+              <label>
+                Transporter ID:
+                <input
+                  name="Transporter.TransporterId"
+                  value={transport.Transporter.TransporterId}
+                  onChange={handleInput}
+                  type="text"/>
+              </label>
 
-        <label>
-          Transporter ID:
-          <input
-            name="Transporter.TransporterId"
-            value={transport.Transporter.TransporterId}
-            onChange={handleInput}
-            type="text"/>
-        </label>
-
-        <label>
-          Delivery Note:
-          <textarea
-            name="Note"
-            value={transport.Note}
-            onChange={handleInput} />
-        </label>
+              <label>
+                Delivery Note:
+                <textarea
+                  name="Note"
+                  value={transport.Note}
+                  onChange={handleInput} />
+              </label>
+            </div>
+          }
+          <p onClick={() => setShowAdditionalMenu(i => !i)}>
+            <strong>
+              Additional Details <FontAwesomeIcon
+                icon={faChevronDown}
+                className={`dropdown-icon ${showAdditionalMenu ? "open" : "closed"}`} />
+            </strong>
+          </p>
+          <hr/>
+          {showAdditionalMenu &&
+            <div className={"dropdown-div"}>
+              <label>
+                Placeholder:
+                <input
+                  //name="VehicleNum"
+                  //value={transport.VehicleNum}
+                  //onChange={handleInput}
+                  type="text"/>
+              </label>
+            </div>
+          }
+        </div>
+        <div>
+          <label>
+            Invoice Number:
+            <input
+              type="text"
+              value={invoiceNumber}
+              onChange={(e) => setInvoiceNumber(e.target.value)} />
+          </label>
+          <label>
+            Invoice Date:
+          </label>
+        </div>
       </div>
     </div>
   )
