@@ -16,11 +16,13 @@
  */
 
 import { Client, saveClient, editClient, Contact, Address } from './../../classes/client';
+import { notificationConfig } from "./../../classes/notifications";
 import MultiAddressEditor from './multi-address-editor';
 import AddressEditor from './address-editor';
 import ContactEditor from './contact-editor';
 import './scss/client-editor.scss';
 
+import { Store } from "react-notifications-component";
 import { useState, useEffect } from 'react';
 
 const ClientEditor = (props) => {
@@ -37,8 +39,8 @@ const ClientEditor = (props) => {
 
   // will delete existing shipping addresses if false
   useEffect(() =>
-    setShippingAddresses(shipToBillingAddress ? [] : (shippingAddresses.length > 0 ? shippingAddresses : [new Address()]))
-  , [shipToBillingAddress, shippingAddresses]);
+    setShippingAddresses(i => shipToBillingAddress ? [] : (i.length > 0 ? i : [new Address()]))
+  , [shipToBillingAddress]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -63,15 +65,23 @@ const ClientEditor = (props) => {
   }
 
   const handleSuccess = (res) => {
-    console.log("Successfully saved client", res)
+    Store.addNotification({
+      title: `Successfully ${props.editing ? "edited" : "added"} client!`,
+      message: `${name} has successfully been ${props.editing ? "edited" : "saved"}.`,
+      ...notificationConfig("success")
+    });
     clearAll();
-    props.successCallback();
+    props.successCallback && props.successCallback();
     props.editing && props.hide();
   }
 
-  const handleFail = (err) => {
-    alert("error while saving client. please check logs");
-    console.log(err);
+  const handleFail = err => {
+    Store.addNotification({
+      title: "An error occoured",
+      message: `Failed to edit client ${name}. ${err.message}`,
+      ...notificationConfig("danger")
+    });
+    console.log(err)
   }
 
   const clearAll = () => {

@@ -16,8 +16,10 @@
  */
 
 import { Brand, saveBrand, editBrand } from './../../classes/brand'
+import { notificationConfig } from "./../../classes/notifications";
 import './scss/brand-editor.scss'
 
+import { Store } from "react-notifications-component";
 import { useState } from 'react';
 
 const BrandEditor = (props) => {
@@ -36,13 +38,22 @@ const BrandEditor = (props) => {
   }
 
   const handleSuccess = () => {
+    Store.addNotification({
+      title: `Successfully ${props.editing ? "edited" : "added"} brand!`,
+      message: `${name} has successfully been ${props.editing ? "edited" : "saved"}.`,
+      ...notificationConfig("success")
+    });
     clearAll();
     props.callback();
     props.editing && props.hide();
   }
 
-  const handleFail = () => {
-    alert("fail");
+  const handleFail = err => {
+    Store.addNotification({
+      title: "An error occoured",
+      message: `Failed to ${props.editing ? "edit" : "add"} brand '${name}'. ${err.message}`,
+      ...notificationConfig("danger")
+    });
   }
 
   const clearAll = () => {

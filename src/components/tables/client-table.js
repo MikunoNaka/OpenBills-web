@@ -17,23 +17,35 @@
 
 import './scss/client-table.scss';
 import { deleteClient } from './../../classes/client';
+import { notificationConfig } from "./../../classes/notifications";
+
+import { Store } from "react-notifications-component";
 
 const ClientTable = (props) => {
-  const handleEdit = (c) => {
+  const handleEdit = c => {
     props.setClientToEdit(c)
   }
 
-  const handleDelete = (c) => {
+  const handleDelete = c => {
     // TODO: add confirmation prompt
-    deleteClient(c.Id, handleDelSuccess, handleDelFail);
+    deleteClient(c.Id, () => handleDelSuccess(c), err => handleDelFail(c, err));
   }
 
-  const handleDelSuccess = () => {
+  const handleDelSuccess = c => {
+    Store.addNotification({
+      title: "Successfully deleted client!",
+      message: `Client '${c.Name}' has successfully been deleted.`,
+      ...notificationConfig("success")
+    });
     props.refresh();
   }
 
-  const handleDelFail = () => {
-    alert("fail")
+  const handleDelFail = (c, err) => {
+    Store.addNotification({
+      title: "An error occoured",
+      message: `Failed to delete client '${c.Name}'. ${err.message}`,
+      ...notificationConfig("danger")
+    });
   }
 
   return (

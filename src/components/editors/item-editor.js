@@ -17,9 +17,11 @@
 
 import { Item, saveItem, editItem } from './../../classes/item';
 import { Brand, getAllBrands } from './../../classes/brand';
+import { notificationConfig } from "./../../classes/notifications";
 import './scss/item-editor.scss';
 
 import { useState, useEffect } from 'react';
+import { Store } from "react-notifications-component";
 
 const ItemEditor = (props) => {
   const [name, setName] = useState(props.item.Name);
@@ -37,8 +39,13 @@ const ItemEditor = (props) => {
   // get saved brands from API
   // needed by the brands dropdown menu
   useEffect(() => {
-    // TODO: handle error
-    getAllBrands(setSavedBrands, () => {});
+    getAllBrands(setSavedBrands, err => {
+      Store.addNotification({
+        title: "Error while getting Brands list.",
+        message: err.message,
+        ...notificationConfig("danger")
+      });
+    });
   }, [])
 
   const handleSubmit = (e) => {
@@ -76,13 +83,22 @@ const ItemEditor = (props) => {
   }
 
   const handleSuccess = () => {
+    Store.addNotification({
+      title: `Successfully ${props.editing ? "edited" : "added"} item!`,
+      message: `${name} has successfully been ${props.editing ? "edited" : "saved"}.`,
+      ...notificationConfig("success")
+    });
     clearAll();
     props.callback();
     props.editing && props.hide();
   }
 
-  const handleFail = () => {
-    alert("fail");
+  const handleFail = err => {
+    Store.addNotification({
+      title: "An error occoured",
+      message: `Failed to ${props.editing ? "edit" : "add"} item ${name}. ${err.message}`,
+      ...notificationConfig("danger")
+    });
   }
 
   const handleBrandSelect = (e) => {

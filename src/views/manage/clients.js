@@ -20,18 +20,26 @@
  */
 
 import { useState, useEffect } from 'react';
+import { Store } from "react-notifications-component";
 
 import './scss/management-page.scss';
 import { Client, getAllClients } from '../../classes/client';
 import ClientEditor from './../../components/editors/client-editor';
 import ClientTable from './../../components/tables/client-table';
+import { notificationConfig } from "./../../classes/notifications";
 
 const ManageClientsPage = () => {
   const [clientToEdit, setClientToEdit] = useState(new Client());
   const [allClients, setAllClients] = useState([]);
   // TODO: handle error
   const updateList = () =>
-    getAllClients(setAllClients, () => {});
+    getAllClients(setAllClients, err => {
+      Store.addNotification({
+        title: "Error while getting Clients list.",
+        message: err.message,
+        ...notificationConfig("danger")
+      });
+    });
 
   useEffect(() => {
     updateList();

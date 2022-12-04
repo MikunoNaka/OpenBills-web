@@ -16,18 +16,26 @@
  */
 
 import { useState, useEffect } from 'react';
+import { Store } from "react-notifications-component";
 
 import './scss/management-page.scss'
 import { Brand, getAllBrands } from '../../classes/brand';
 import BrandEditor from './../../components/editors/brand-editor';
 import BrandTable from './../../components/tables/brand-table';
+import { notificationConfig } from "./../../classes/notifications";
 
 const ManageBrandsPage = () => {
   const [brandToEdit, setBrandToEdit] = useState(new Brand());
   const [allBrands, setAllBrands] = useState([]);
-  // TODO: handle error
+
   const updateList = () =>
-    getAllBrands(setAllBrands, () => {});
+    getAllBrands(setAllBrands, err => {
+      Store.addNotification({
+        title: "Error while getting Brands list.",
+        message: err.message,
+        ...notificationConfig("danger")
+      });
+    });
 
   useEffect(() => {
     updateList();

@@ -54,25 +54,25 @@ export class InvoiceItem extends Item {
 export const saveItem = (item, ok, fail) => {
   axios.post("/item/new", item)
     .then(res => ok())
-    .catch((err) => fail())
+    .catch(err => fail(err))
 }
 
 export const deleteItem = (id, ok, fail) => {
   axios.delete(`/item/${id}`)
     .then(res => ok())
-    .catch((err) => fail())
+    .catch(err => fail(err))
 }
 
 export const getAllItems = (ok, fail) => {
   axios.get("/item/all")
     .then(res => ok(res.data))
-    .catch(err => fail())
+    .catch(err => fail(err))
 }
 
 export const editItem = (item, ok, fail) => {
   axios.put(`/item/${item.Id}`, item)
     .then(res => ok())
-    .catch(err => fail());
+    .catch(err => fail(err));
 }
 
 export const getDiscountValue = (item) =>

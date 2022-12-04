@@ -20,18 +20,26 @@
  */
 
 import { useState, useEffect } from 'react';
+import { Store } from "react-notifications-component";
 
 import './scss/management-page.scss'
 import { Item, getAllItems } from '../../classes/item';
 import ItemEditor from './../../components/editors/item-editor';
 import ItemTable from './../../components/tables/item-table';
+import { notificationConfig } from "./../../classes/notifications";
 
 const ManageItemsPage = () => {
   const [itemToEdit, setItemToEdit] = useState(new Item());
   const [allItems, setAllItems] = useState([]);
-  // TODO: handle error
+
   const updateList = () =>
-    getAllItems(setAllItems, () => {});
+    getAllItems(setAllItems, err => {
+      Store.addNotification({
+        title: "Error while getting Items list.",
+        message: err.message,
+        ...notificationConfig("danger")
+      });
+    });
 
   useEffect(() => {
     updateList();

@@ -1,0 +1,31 @@
+@import "../colors";
+
+$default: $altBackgroundColor !default;
+$default_dark: $primaryAccentColor !default;
+$default_timer: $backgroundColor !default;
+$default_timer_filler: $primaryAccentColor !default;
+
+$success: $altBackgroundColor !default;
+$success_dark: $successColor !default;
+$success_timer: $backgroundColor !default;
+$success_timer_filler: $successColor !default;
+
+$danger: $altBackgroundColor !default;
+$danger_dark: $warningColor !default;
+$danger_timer: $backgroundColor !default;
+$danger_timer_filler: $warningColor !default;
+
+$warning: $altBackgroundColor !default;
+$warning_dark: $infoColor !default;
+$warning_timer: $backgroundColor !default;
+$warning_timer_filler: $infoColor !default;
+
+$info: $default;
+$info_dark: $default_dark;
+$info_timer: $default_timer;
+$info_timer_filler: $default_timer_filler;
+
+$awesome: $success;
+$awesome_dark: $success_dark;
+$awesome_timer: $success_timer;
+$awesome_timer_filler: $success_timer_filler;

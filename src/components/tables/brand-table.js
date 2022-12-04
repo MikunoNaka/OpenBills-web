@@ -17,6 +17,9 @@
 
 import './scss/brand-table.scss';
 import { deleteBrand } from './../../classes/brand';
+import { notificationConfig } from "./../../classes/notifications";
+
+import { Store } from "react-notifications-component";
 
 const BrandTable = (props) => {
   const handleEdit = (b) => {
@@ -25,15 +28,24 @@ const BrandTable = (props) => {
 
   const handleDelete = (b) => {
     // TODO: add confirmation prompt
-    deleteBrand(b.Id, handleDelSuccess, handleDelFail);
+    deleteBrand(b.Id, () => handleDelSuccess(b), err => handleDelFail(b, err));
   }
 
-  const handleDelSuccess = () => {
+  const handleDelSuccess = b => {
+    Store.addNotification({
+      title: "Successfully deleted brand!",
+      message: `Brand '${b.Name}' has successfully been deleted.`,
+      ...notificationConfig("success")
+    });
     props.refresh();
   }
 
-  const handleDelFail = () => {
-    alert("fail")
+  const handleDelFail = (b, err) => {
+    Store.addNotification({
+      title: "An error occoured",
+      message: `Failed to delete brand '${b.Name}'. ${err.message}`,
+      ...notificationConfig("danger")
+    });
   }
 
   return (

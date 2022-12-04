@@ -17,11 +17,14 @@
 
 import './scss/login.scss';
 import { User, validateEmail, validateUsername, validatePassword, saveUser } from '../../classes/user';
+import { notificationConfig } from "./../../classes/notifications";
 
+import { Store } from "react-notifications-component";
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-solid-svg-icons'
+
 
 const RegisterPage = () => {
   const [user, setUser] = useState(new User());
@@ -41,11 +44,19 @@ const RegisterPage = () => {
   }
 
   const handleSuccess = () => {
-    alert("yay")
+    Store.addNotification({
+      title: "Created new account",
+      message: `Welcome to OpenBills, ${user.UserName}!`,
+      ...notificationConfig("default")
+    });
   }
 
-  const handleError = () => {
-    alert("fail")
+  const handleError = err => {
+    Store.addNotification({
+      title: "An error occoured",
+      message: `Failed to create new account. ${err.message}`,
+      ...notificationConfig("danger")
+    });
   }
 
   return (

@@ -18,7 +18,6 @@
 import AddressEditor from './address-editor';
 
 const MultiAddressEditor = ({addresses, setAddresses, setShipToBillingAddress}) => {
-  console.log(addresses)
   const handleChange = (id, data) => {
     const newAddresses = [...addresses];
     newAddresses[id] = {

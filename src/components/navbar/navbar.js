@@ -58,7 +58,7 @@ const Navbar = () => {
     <div className={"navbar"}>
       <span className={"logo"}>
         <Link to="/">
-          <img src="/logo.png" alt="App Logo"/>
+          <img src="/waifu_logo.png" alt="App Logo"/>
         </Link>
       </span>
 

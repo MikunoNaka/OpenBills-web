@@ -16,7 +16,9 @@
  */
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import './App.scss';
+import { ReactNotifications } from "react-notifications-component";
+import "./notifications_styles/notification.scss"
+
 import Navbar from './components/navbar/navbar';
 import HomePage from './views/homepage';
 import RegisterPage from './views/login/register';
@@ -27,11 +29,13 @@ import ManageItemsPage from './views/manage/items';
 import ManageClientsPage from './views/manage/clients';
 import ManageBrandsPage from './views/manage/brands';
 import ManageInvoicesPage from './views/manage/invoices';
+import './App.scss';
 
 const App = () => {
   return (
     <BrowserRouter>
       <Navbar/>
+      <ReactNotifications />
       <main>
         <Routes>
           <Route exact path="/" element={<HomePage/>}/>

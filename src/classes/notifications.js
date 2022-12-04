@@ -15,26 +15,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-@import "colors";
-
-@mixin floating-window {
-    .floating-wrapper {
-        height: 100vh;
-        width: 100vw;
-        box-sizing: border-box;
-        position: fixed;
-        top: 0;
-        left: 0;
-        background-color: rgba($backgroundColor, 0.3);
-        z-index: 5;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        backdrop-filter: blur(2px);
-        .floating-window {
-            width: 90%;
-            max-width: 1200px;
-            z-index: 6;
-        }
+// TODO: load defaults from config
+export function notificationConfig(type, duration=3000) {
+  return {
+    type: type,
+    insert: "top",
+    container: "top-right",
+    animationIn: ["animate__animated", "animate__fadeIn"],
+    animationOut: ["animate__animated", "animate__fadeOut"],
+    dismiss: {
+      duration: duration,
+      onScreen: true
     }
+  };
 }

@@ -17,6 +17,9 @@
 
 import './scss/table.scss';
 import { deleteItem } from './../../classes/item';
+import { notificationConfig } from "./../../classes/notifications";
+
+import { Store } from "react-notifications-component";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 
@@ -27,15 +30,24 @@ const ItemTable = (props) => {
 
   const handleDelete = (i) => {
     // TODO: add confirmation prompt
-    deleteItem(i.Id, handleDelSuccess, handleDelFail);
+    deleteItem(i.Id, () => handleDelSuccess(i), err => handleDelFail(i, err));
   }
 
-  const handleDelSuccess = () => {
+  const handleDelSuccess = i => {
+    Store.addNotification({
+      title: "Successfully deleted item!",
+      message: `Item '${i.Name}' has successfully been deleted.`,
+      ...notificationConfig("success")
+    });
     props.refresh();
   }
 
-  const handleDelFail = () => {
-    alert("fail")
+  const handleDelFail = (i, err) => {
+    Store.addNotification({
+      title: "An error occoured",
+      message: `Failed to delete item '${i.Name}'. ${err.message}`,
+      ...notificationConfig("danger")
+    });
   }
 
   return (
