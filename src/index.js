@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import axios from 'axios';
+import { BrowserRouter } from "react-router-dom";
 
 // For GET requests
 axios.interceptors.request.use(
@@ -22,8 +23,12 @@ axios.interceptors.request.use(
       })
         .then((res) => res.json())
         .then((res) => {
-          localStorage.setItem("accessToken", res.accessToken);
-          return axios(err.config);
+          if (res.accessToken && res.accessToken !== "") {
+            localStorage.setItem("accessToken", res.accessToken);
+            return axios(err.config);
+          } else {
+            window.location = "/login"
+          }
         })
       resolve(response);
     } else {
@@ -51,8 +56,12 @@ axios.interceptors.response.use(
       })
         .then((res) => res.json())
         .then((res) => {
-          localStorage.setItem("accessToken", res.accessToken);
-          return axios(err.config);
+          if (res.accessToken && res.accessToken !== "") {
+            localStorage.setItem("accessToken", res.accessToken);
+            return axios(err.config);
+          } else {
+            window.location = "/login"
+          }
         })
       resolve(response);
     } else {
@@ -61,9 +70,13 @@ axios.interceptors.response.use(
   })
 );
 
+axios.defaults.baseURL = "/";
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>
 );
