@@ -15,9 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import { ReactNotifications } from "react-notifications-component";
-import "./notifications_styles/notification.scss"
+import axios from "axios";
+import "./notifications_styles/notification.scss";
 
 import Navbar from './components/navbar/navbar';
 import HomePage from './views/homepage';
@@ -32,8 +34,17 @@ import ManageInvoicesPage from './views/manage/invoices';
 import './App.scss';
 
 const App = () => {
+  // when location changes, ping server to check if logged in
+  // and don't ping if location is /login or /register
+  const location = useLocation();
+  useEffect(_ => {
+    if (!["/login", "/register"].includes(location.pathname)) {
+      axios.post("/ping")
+    }
+  }, [location]);
+
   return (
-    <BrowserRouter>
+    <>
       <Navbar/>
       <ReactNotifications />
       <main>
@@ -50,7 +61,7 @@ const App = () => {
           <Route path="*" element={<h1>404</h1>}/>
         </Routes>
       </main>
-    </BrowserRouter>
+    </>
   );
 }
 
