@@ -20,13 +20,13 @@ import { User, validateEmail, validateUsername, validatePassword, saveUser } fro
 import { notificationConfig } from "./../../classes/notifications";
 
 import { Store } from "react-notifications-component";
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-solid-svg-icons'
 
-
 const RegisterPage = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState(new User());
   const [showPassword, setShowPassword] = useState(false);
 
@@ -40,7 +40,14 @@ const RegisterPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    saveUser(user, handleSuccess, handleError);
+    if (validate()) saveUser(user, handleSuccess, handleError);
+  }
+
+  // for some reason pressing enter on the from clicks the /register link
+  const handleEnter = e => {
+    if (e.code === "Enter" || e.code === "NumpadEnter") {
+      handleSubmit(e);
+    }
   }
 
   const handleSuccess = () => {
@@ -49,6 +56,7 @@ const RegisterPage = () => {
       message: `Welcome to OpenBills, ${user.UserName}!`,
       ...notificationConfig("default")
     });
+    navigate(`/login?user=${user.UserName}`);
   }
 
   const handleError = err => {
@@ -63,7 +71,7 @@ const RegisterPage = () => {
     <div className={"register-page-wrapper"}>
       <div className={"register-page"}>
         <h1>Sign Up To OpenBills</h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} onKeyDown={handleEnter}>
           <label>
             Username:
             <input
@@ -101,9 +109,7 @@ const RegisterPage = () => {
           </label>
           <hr/>
           <div className={"buttons"}>
-            <Link to="/login">
-              <button>Log In Instead</button>
-            </Link>
+            <button onClick={_ => navigate("/login")}>Log In Instead</button>
             <input type="submit" value="Sign Up" disabled={!validate()}/>
           </div>
         </form>

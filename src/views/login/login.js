@@ -18,7 +18,7 @@
 import './scss/login.scss';
 import { User, login } from '../../classes/user';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-solid-svg-icons'
@@ -27,6 +27,13 @@ const LoginPage = () => {
   const [user, setUser] = useState(new User());
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+
+  // read username from params and populate input box
+  const [urlParams] = useSearchParams();
+  useState(_ => {
+    const user = urlParams.get("user");
+    if (user && user !== "") setUser(prev => ({...prev, UserName: user}));
+  }, [urlParams]);
 
   const validate = () => {
     if (user.UserName.trim() === "") return false;
@@ -39,7 +46,14 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login(user, handleSuccess, handleError);
+    if (validate()) login(user, handleSuccess, handleError);
+  }
+
+  // for some reason pressing enter on the from clicks the /register link
+  const handleEnter = e => {
+    if (e.code === "Enter" || e.code === "NumpadEnter") {
+      handleSubmit(e);
+    }
   }
 
   const handleSuccess = (res) => {
@@ -57,7 +71,7 @@ const LoginPage = () => {
       <div className={"login-page"}>
         <h1>Welcome To OpenBills!</h1>
         <p>You are not logged in.</p>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} onKeyDown={handleEnter}>
           <label>
             Username:
             <input
@@ -86,9 +100,7 @@ const LoginPage = () => {
           </label>
           <hr/>
           <div className={"buttons"}>
-            <Link to="/register">
-              <button>Create Account</button>
-            </Link>
+            <button onClick={_ => navigate("/register")}>Create Account</button>
             <input type="submit" value="Log In" disabled={!validate()}/>
           </div>
         </form>
