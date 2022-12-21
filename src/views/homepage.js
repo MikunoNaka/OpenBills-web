@@ -15,22 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Link, useNavigate } from 'react-router-dom';
-import { notificationConfig } from "../classes/notifications";
-import { Store } from "react-notifications-component";
+import { Link } from 'react-router-dom';
 
 const HomePage = () => {
-  // this is temporary, just for testing
-  // TODO: find better way to do this
-  const navigate = useNavigate();
-  if (!localStorage.getItem("accessToken")) {
-    Store.addNotification({
-      title: "You are not logged in",
-      message: "You need to log in before accessing this page.",
-      ...notificationConfig("default")
-    });
-    navigate("/login")
-  }
   return (
     <>
       <h1>Welcome to OpenBills</h1>
