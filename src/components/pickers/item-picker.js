@@ -93,7 +93,7 @@ const ItemPicker = ({invoiceItems, addInvoiceItem}) => {
     <div className={"picker-wrapper"}>
       <p className={"heading"}>Add an Item</p>
       <form className={"item-picker"} onSubmit={addItem}>
-        {items.length > 0 ?
+        {items && items.length > 0 ?
           <>
             <label>
               Product/Service:
@@ -176,7 +176,9 @@ const ItemPicker = ({invoiceItems, addInvoiceItem}) => {
             </div>
           </> :
           <Link to="/manage/items">
-            <input type="button" value="Add Items" />
+            <p>
+              No items found. Click here to add new items.
+            </p>
           </Link>
         }
       </form>

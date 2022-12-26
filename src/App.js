@@ -22,9 +22,10 @@ import axios from "axios";
 import "./notifications_styles/notification.scss";
 
 import Navbar from './components/navbar/navbar';
-import HomePage from './views/homepage';
+import HomePage from './views/homepage/homepage';
 import RegisterPage from './views/login/register';
 import LoginPage from './views/login/login';
+import PreviewInvoice from './views/invoice/preview';
 import NewInvoicePage from './views/invoice/new';
 import ManagementPage from './views/manage/manage';
 import ManageItemsPage from './views/manage/items';
@@ -52,6 +53,7 @@ const App = () => {
           <Route exact path="/" element={<HomePage/>}/>
           <Route exact path="/login" element={<LoginPage/>}/>
           <Route exact path="/register" element={<RegisterPage/>}/>
+          <Route exact path="/invoice/preview" element={<PreviewInvoice/>}/>
           <Route exact path="/invoice/new" element={<NewInvoicePage/>}/>
           <Route exact path="/manage/items" element={<ManageItemsPage/>}/>
           <Route exact path="/manage/clients" element={<ManageClientsPage/>}/>

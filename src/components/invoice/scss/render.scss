@@ -1,0 +1,66 @@
+@import "../../../colors";
+
+.print-area {
+    background-color: white;
+    color: black;
+}
+
+.print-table {
+    width: 90%;
+    margin: 0.5cm auto;
+    th {
+        background-color: rgba(gray, 0.6);
+    }
+    .total {
+        color: black;
+    }
+    tr:nth-child(even) {
+        background-color: rgba(gray, 0.2);
+    }
+    tbody {
+        tr {
+            $height: 3em;
+            height: $height;
+            max-height: $height;
+        }
+        td {
+            vertical-align: top;
+        }
+        .leveled-td {
+            display: flex;
+            flex-direction: column;
+            .subscript {
+                font-size: 0.9em;
+                color: gray;
+            }
+        }
+    }
+}
+
+@media print {
+    html, body, main, #root {
+        background-color: white !important;
+        color: black !important;
+        font-size: 14px;
+    }
+    main, #root {
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        print-color-adjust: exact !important;
+        -webkit-print-color-adjust: exact !important;
+        margin: 25mm 25mm 25mm 25mm;
+    }
+    .rnc__base, .navbar {
+        display: none;
+    }
+
+    .print-area {
+        margin: auto;
+        width: 95%;
+        .print-table {
+            width: 100%;
+        }
+    }
+}

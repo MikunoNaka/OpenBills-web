@@ -15,37 +15,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-@import "picker";
+.homepage-menu {
+  max-width: 40rem;
+  height: 35rem;
+  margin: 7rem auto auto auto;
 
-
-.picker-wrapper {
-    @include picker-wrapper;
-    @include label;
-}
-
-.client-picker {
-    //display: flex;
-    //justify-content: space-evenly;
-    display: grid;
-    grid-template-columns: auto auto auto auto;
-    .options {
-        width: 27rem;
-        flex-grow: 1;
-    }
-    .billing-address,
-    .shipping-address,
-    .contact-info {
-        p { margin: 0 }
-        max-width: 24rem;
-        margin: 0 1rem;
-        flex-grow: 1;
-    }
-    .contact-info {
-        .icon {
-            font-size: 0.9rem;
-        }
-    }
-    .multiline {
-      white-space: pre-line;
-    }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  .tile {
+    width: 33.5rem;
+  }
 }

@@ -19,7 +19,7 @@ import './scss/login.scss';
 import { User, login } from '../../classes/user';
 
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye } from '@fortawesome/free-solid-svg-icons'
 
@@ -30,7 +30,7 @@ const LoginPage = () => {
 
   // read username from params and populate input box
   const [urlParams] = useSearchParams();
-  useState(_ => {
+  useEffect(_ => {
     const user = urlParams.get("user");
     if (user && user !== "") setUser(prev => ({...prev, UserName: user}));
   }, [urlParams]);

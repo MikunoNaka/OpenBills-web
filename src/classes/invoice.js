@@ -64,6 +64,12 @@ export const getAllInvoices = (ok, fail) => {
     .catch(err => fail())
 }
 
+export const getInvoice = (id, ok, fail) => {
+  axios.get(`/invoice/${id}`)
+    .then(res => ok(res))
+    .catch(err => fail(err))
+}
+
 export const saveInvoice = (invoice, ok, fail) => {
   axios.post("/invoice/new", invoice)
     .then(res => ok(res))
@@ -72,12 +78,12 @@ export const saveInvoice = (invoice, ok, fail) => {
 
 export const deleteInvoice = (id, ok, fail) => {
   axios.delete(`/invoice/${id}`)
-    .then(res => ok())
-    .catch((err) => fail())
+    .then(res => ok(res))
+    .catch(err => fail(err))
 }
 
-export const editInvoice = (item, ok, fail) => {
-  axios.put(`/invoice/${item.Id}`, item)
-    .then(res => ok())
-    .catch(err => fail());
+export const editInvoice = (invoice, ok, fail) => {
+  axios.put(`/invoice/${invoice.Id}`, invoice)
+    .then(res => ok(res))
+    .catch(err => fail(err));
 }

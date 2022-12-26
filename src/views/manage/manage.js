@@ -19,8 +19,8 @@ import './scss/management-page.scss';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faFileInvoice, faCartShopping, faIndustry } from '@fortawesome/free-solid-svg-icons'
-const ManagementPage = () => {
 
+const ManagementPage = () => {
   return (
     <>
       <h1>Manage OpenBills Data</h1>
@@ -28,25 +28,25 @@ const ManagementPage = () => {
         Here you can add/modify/delete OpenBills data (clients, invoices, etc)
       </p>
       <div className={"manage-links"}>
-        <Link to="/manage/items">
+        <Link to="/manage/items" className={"tile"}>
           <span className={"content"}>
             <span className={"icon"}><FontAwesomeIcon icon={faCartShopping}/></span>
             <span className={"text"}>Edit Items</span>
           </span>
         </Link>
-        <Link to="/manage/clients">
+        <Link to="/manage/clients" className={"tile"}>
           <span className={"content"}>
             <span className={"icon"}><FontAwesomeIcon icon={faUser}/></span>
             <span className={"text"}>Edit Clients</span>
           </span>
         </Link>
-        <Link to="/manage/brands">
+        <Link to="/manage/brands" className={"tile"}>
           <span className={"content"}>
             <span className={"icon"}><FontAwesomeIcon icon={faIndustry}/></span>
             <span className={"text"}>Edit Brands</span>
           </span>
         </Link>
-        <Link to="/manage/invoices">
+        <Link to="/manage/invoices" className={"tile"}>
           <span className={"content"}>
             <span className={"icon"}><FontAwesomeIcon icon={faFileInvoice}/></span>
             <span className={"text"}>Edit Invoices</span>

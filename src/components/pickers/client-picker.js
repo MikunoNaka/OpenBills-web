@@ -18,6 +18,7 @@
 import { Client, InvoiceClient, getAllClients } from '../../classes/client';
 import './scss/client-picker.scss';
 
+import { Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhone, faEnvelope, faGlobe } from '@fortawesome/free-solid-svg-icons'
@@ -59,9 +60,9 @@ const ClientPicker = ({ client, setClient, shippingAddressId, setShippingAddress
     <div className={"picker-wrapper"}>
       <p className={"heading"}>Invoice Recipient</p>
       <div className={"client-picker"}>
-        <div className={"options"}>
-          {clients && clients.length > 0 &&
-            <>
+        {(clients && clients.length > 0) ?
+          <>
+            <div className={"options"}>
               <label>
                 Client Name:
                 <select value={client.Id ? client.Id : ""} onChange={handleClientSelect}>
@@ -80,60 +81,67 @@ const ClientPicker = ({ client, setClient, shippingAddressId, setShippingAddress
                 </label>
               }
               <p>GSTIN: {client.GSTIN === "" ? "URP" : client.GSTIN}</p>
-            </>
-          }
-        </div>
+            </div>
 
-        <div className={"contact-info"}>
-          <p>
-            Name: {client.Contact.Name}<br/>
-            {client.Contact.Phones.length > 0 &&
-              <>
-                <FontAwesomeIcon icon={faPhone} className={"icon"}/>
-                {client.Contact.Phones.map((i, id) => <a key={`${i}-${id}`} href={`tel:${i}`}>{` ${i}${id + 1 === client.Contact.Phones.length ? '' : ','}`}</a>)}
-                <br/>
-              </>
-            }
-            {client.Contact.Emails.length > 0 &&
-              <>
-                <FontAwesomeIcon icon={faEnvelope} className={"icon"}/>
-                {client.Contact.Emails.map((i, id) => <a key={`${i}-${id}`} href={`mailto:${i}`}>{` ${i}${id + 1 === client.Contact.Emails.length ? '' : ','}`}</a>)}
-                <br/>
-              </>
-            }
-            {client.Contact.Website.length > 0 &&
-              <>
-                <FontAwesomeIcon icon={faGlobe} className={"icon"}/> <a
-                  href={`${(client.Contact.Website.startsWith("https://")
-                    || client.Contact.Website.startsWith("http://"))
-                      ? client.Contact.Website : 'https://' + client.Contact.Website}`}
-                  target="noreferrer noopener"
-                >
-                  {client.Contact.Website}
-                </a>
-              </>
-            }
-          </p>
-        </div>
-
-        {client.Id !== null && // if client is selected
-          <>
-            <div className={"billing-address"}>
-              <p className={"multiline"}>
-                <strong>Billing Address: </strong><br/>
-                {client.BillingAddress.Text} <br/>
-                {client.BillingAddress.City}, {client.BillingAddress.State} - {client.BillingAddress.PostalCode} ({client.BillingAddress.Country})
+            <div className={"contact-info"}>
+              <p>
+                Name: {client.Contact.Name}<br/>
+                {client.Contact.Phones.length > 0 &&
+                  <>
+                    <FontAwesomeIcon icon={faPhone} className={"icon"}/>
+                    {client.Contact.Phones.map((i, id) => <a key={`${i}-${id}`} href={`tel:${i}`}>{` ${i}${id + 1 === client.Contact.Phones.length ? '' : ','}`}</a>)}
+                    <br/>
+                  </>
+                }
+                {client.Contact.Emails.length > 0 &&
+                  <>
+                    <FontAwesomeIcon icon={faEnvelope} className={"icon"}/>
+                    {client.Contact.Emails.map((i, id) => <a key={`${i}-${id}`} href={`mailto:${i}`}>{` ${i}${id + 1 === client.Contact.Emails.length ? '' : ','}`}</a>)}
+                    <br/>
+                  </>
+                }
+                {client.Contact.Website.length > 0 &&
+                  <>
+                    <FontAwesomeIcon icon={faGlobe} className={"icon"}/> <a
+                      href={`${(client.Contact.Website.startsWith("https://")
+                        || client.Contact.Website.startsWith("http://"))
+                          ? client.Contact.Website : 'https://' + client.Contact.Website}`}
+                      target="noreferrer noopener"
+                    >
+                      {client.Contact.Website}
+                    </a>
+                  </>
+                }
               </p>
             </div>
-            {shouldShowAddressPicker() && shippingAddressId >= 0 &&
-              <div className={"shipping-address"}>
-                <p className={"multiline"}>
-                  <strong>Shipping Address: </strong><br/>
-                  {client.ShippingAddresses[shippingAddressId].Text}<br/>
-                  {client.ShippingAddresses[shippingAddressId].City}, {client.ShippingAddresses[shippingAddressId].State} - {client.ShippingAddresses[shippingAddressId].PostalCode} ({client.ShippingAddresses[shippingAddressId].Country})
-                </p>
-              </div>
+
+            {client.Id !== null && // if client is selected
+              <>
+                <div className={"billing-address"}>
+                  <p className={"multiline"}>
+                    <strong>Billing Address: </strong><br/>
+                    {client.BillingAddress.Text} <br/>
+                    {client.BillingAddress.City}, {client.BillingAddress.State} - {client.BillingAddress.PostalCode} ({client.BillingAddress.Country})
+                  </p>
+                </div>
+                {shouldShowAddressPicker() && shippingAddressId >= 0 &&
+                  <div className={"shipping-address"}>
+                    <p className={"multiline"}>
+                      <strong>Shipping Address: </strong><br/>
+                      {client.ShippingAddresses[shippingAddressId].Text}<br/>
+                      {client.ShippingAddresses[shippingAddressId].City}, {client.ShippingAddresses[shippingAddressId].State} - {client.ShippingAddresses[shippingAddressId].PostalCode} ({client.ShippingAddresses[shippingAddressId].Country})
+                    </p>
+                  </div>
+                }
+              </>
             }
+          </>
+          : <>
+            <Link to="/manage/clients">
+              <p>
+                No clients found. Click here to add new clients.
+              </p>
+            </Link>
           </>
         }
       </div>

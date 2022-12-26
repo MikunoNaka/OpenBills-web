@@ -105,3 +105,30 @@ $selectionColor: rgba($primaryAccentColor, 0.9)
         z-index: 6;
     }
 }
+
+a.tile {
+  color: $fgColor;
+  height: 10rem;
+  width: 15rem;
+  border: 1px solid $secondaryAccentColor;
+  transition: transform 0.2s, color 0.4s, border 0.2s;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-top: -0.8rem;
+
+    .icon {font-size: 5rem;}
+  }
+}
+
+a.tile:hover {
+  transform: scale(1.05, 1.05);
+  color: $primaryAccentColor;
+  border: 1px solid $primaryAccentColor;
+}

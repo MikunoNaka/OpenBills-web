@@ -15,16 +15,26 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Link } from 'react-router-dom';
+import PrintTable from "./table";
+import "./scss/render.scss";
 
-const HomePage = () => {
+const RenderInvoice = ({ invoice }) => {
   return (
-    <>
-      <h1>Welcome to OpenBills</h1>
-      <p>Check out <Link to="/manage">/manage</Link></p>
-      <p>"Create" new invoice at <Link to="/invoice/new">Create New Invoice</Link></p>
-    </>
+    <div className={"print-area"}>
+      <div className={"invoice-headers"}>
+        <div className={"issuer-details"}>
+        </div>
+        <div className={"recipient-details"}>
+          <span>{invoice.Recipient.Name}</span>
+          <span>{invoice.BillingAddress.Text}</span>
+        </div>
+      </div>
+
+      <div>
+        <PrintTable items={invoice.Items} isInterstate={false}/>
+      </div>
+    </div>
   );
 }
 
-export default HomePage;
+export default RenderInvoice;
